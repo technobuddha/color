@@ -1,0 +1,9 @@
+node_modules/
+.vscode/
+.editorconfig
+.prettierignore
+*.config.js
+*.config.ts
+*.setup.js
+*.setup.ts
+tsconfig*.json

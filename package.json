@@ -1,4 +1,36 @@
 {
-  "name": "color",
-  "packageManager": "yarn@4.4.1"
+  "name": "@technobuddha/color",
+  "version": "0.3.2",
+  "description": "Technobuddha color library",
+  "author": {
+    "name": "Phil Hill",
+    "email": "phil@technobuddha.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/technobuddha/@technobuddha/color"
+  },
+  "bugs": {
+    "url": "https://github.com/technobuddha/@technobuddha/color/issues"
+  },
+  "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
+  "packageManager": "yarn@4.6.0",
+  "scripts": {
+    "build": "tsc -b src"
+  },
+  "devDependencies": {
+    "@technobuddha/project": "0.0.176"
+  },
+  "technobuddhaProject": {
+    "version": "0.0.159",
+    "created": "2025-02-10T15:54:42.955Z",
+    "updated": "2025-02-20T20:05:59.116Z"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts"
 }
