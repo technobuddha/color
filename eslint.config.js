@@ -4,13 +4,19 @@
 // 🚨
 import { app } from '@technobuddha/project';
 
-/**
- * @import { type Linter } from 'eslint';
- * @type {Linter.Config[]}
- */
+// eslint-disable-next-line tsdoc/syntax
+/** @type {import('eslint').Linter.Config[]} */
 const config = [
+  // src/tsconfig.code.json
+  app.lint({ files: ['src/*.ts'], ignores: ['src/*.test.ts'], tsConfig: 'src/tsconfig.code.json' }),
   // src/tsconfig.json
-  app.lint({ files: ['src/*.ts'], ignores: [], tsConfig: 'src/tsconfig.json' }),
+  app.lint({
+    files: ['src/*.test.ts'],
+    ignores: [],
+    tsConfig: 'src/tsconfig.json',
+    environment: 'node',
+    jest: true,
+  }),
   // tsconfig.json
   app.lint({ files: ['*.config.js'], ignores: [], environment: 'node' }),
 ];

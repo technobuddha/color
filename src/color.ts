@@ -1,29 +1,29 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import cmy, { type CMY, type PartialCMY } from './cmy.js';
-import cmyk, { type CMYK, type PartialCMYK } from './cmyk.js';
-import colorCompare from './color-compare.js';
-import hcg, { type HCG, type PartialHCG } from './hcg.js';
-import hsi, { type HSI, type PartialHSI } from './hsi.js';
-import hsl, { type HSL, type PartialHSL } from './hsl.js';
-import hsv, { type HSV, type PartialHSV } from './hsv.js';
-import hwb, { type HWB, type PartialHWB } from './hwb.js';
-import lab, { type LAB, type PartialLAB } from './lab.js';
-import lch, { type LCH, type PartialLCH } from './lch.js';
-import rgb, { type PartialRGB, type RGB } from './rgb.js';
-import xyz, { type PartialXYZ, type XYZ } from './xyz.js';
+import { type CMY, cmy, type PartialCMY } from './cmy.ts';
+import { type CMYK, cmyk, type PartialCMYK } from './cmyk.ts';
+import * as colorCompare from './color-compare.ts';
+import { type HCG, hcg, type PartialHCG } from './hcg.ts';
+import { type HSI, hsi, type PartialHSI } from './hsi.ts';
+import { type HSL, hsl, type PartialHSL } from './hsl.ts';
+import { type HSV, hsv, type PartialHSV } from './hsv.ts';
+import { type HWB, hwb, type PartialHWB } from './hwb.ts';
+import { type LAB, lab, type PartialLAB } from './lab.ts';
+import { type LCH, lch, type PartialLCH } from './lch.ts';
+import { type PartialRGB, type RGB, rgb } from './rgb.ts';
+import { type PartialXYZ, type XYZ, xyz } from './xyz.ts';
 
 export type Alpha = { alpha?: number };
-export type { CMY, PartialCMY as partialCMY } from './cmy';
-export type { CMYK, PartialCMYK as partialCMYK } from './cmyk';
-export type { HCG, PartialHCG as partialHCG } from './hcg';
-export type { HSI, PartialHSI as partialHSI } from './hsi';
-export type { HSL, PartialHSL as partialHSL } from './hsl';
-export type { HSV, PartialHSV as partialHSV } from './hsv';
-export type { HWB, PartialHWB as partialHWB } from './hwb';
-export type { LAB, PartialLAB as partialLAB } from './lab';
-export type { LCH, PartialLCH as partialLCH } from './lch';
-export type { PartialRGB as partialRGB, RGB } from './rgb';
-export type { PartialXYZ as partialXYZ, XYZ } from './xyz';
+export type { CMY, PartialCMY as partialCMY } from './cmy.ts';
+export type { CMYK, PartialCMYK as partialCMYK } from './cmyk.ts';
+export type { HCG, PartialHCG as partialHCG } from './hcg.ts';
+export type { HSI, PartialHSI as partialHSI } from './hsi.ts';
+export type { HSL, PartialHSL as partialHSL } from './hsl.ts';
+export type { HSV, PartialHSV as partialHSV } from './hsv.ts';
+export type { HWB, PartialHWB as partialHWB } from './hwb.ts';
+export type { LAB, PartialLAB as partialLAB } from './lab.ts';
+export type { LCH, PartialLCH as partialLCH } from './lch.ts';
+export type { PartialRGB as partialRGB, RGB } from './rgb.ts';
+export type { PartialXYZ as partialXYZ, XYZ } from './xyz.ts';
 
 export type Color = RGB | HSL | HSV | HSI | HWB | HCG | CMY | CMYK | XYZ | LAB | LCH;
 export type PartialColor =
@@ -41,11 +41,9 @@ export type PartialColor =
 export type ColorSpecification = PartialColor | string;
 export type AmountRatio = { ratio: number } | { amount: number } | number;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DispatchCall<S, T> = (this: void, color: S, ...args: any[]) => T;
+type DispatchCall<S, T, V> = (this: void, color: S, ...args: V[]) => T;
 const colorSpaceError = new TypeError('Unidentifiable color space.');
 
-/* eslint-disable @typescript-eslint/naming-convention */
 export const colorSpaces = {
   RGB: rgb,
   HSL: hsl,
@@ -59,7 +57,6 @@ export const colorSpaces = {
   LAB: lab,
   LCH: lch,
 };
-/* eslint-enable @typescript-eslint/naming-convention */
 
 function adjust(parameter: number, ar: AmountRatio, use: 'ratio' | 'amount' = 'ratio'): number {
   return Math.min(
@@ -79,7 +76,7 @@ function adjust(parameter: number, ar: AmountRatio, use: 'ratio' | 'amount' = 'r
   );
 }
 
-function dispatch<T>(
+function dispatch<T, V>(
   {
     rgb: rgbFn,
     hsl: hslFn,
@@ -93,20 +90,20 @@ function dispatch<T>(
     lab: labFn,
     lch: lchFn,
   }: {
-    rgb: DispatchCall<PartialRGB, T>;
-    hsl: DispatchCall<PartialHSL, T>;
-    hsv: DispatchCall<PartialHSV, T>;
-    hsi: DispatchCall<PartialHSI, T>;
-    hwb: DispatchCall<PartialHWB, T>;
-    hcg: DispatchCall<PartialHCG, T>;
-    cmy: DispatchCall<PartialCMY, T>;
-    cmyk: DispatchCall<PartialCMYK, T>;
-    xyz: DispatchCall<PartialXYZ, T>;
-    lab: DispatchCall<PartialLAB, T>;
-    lch: DispatchCall<PartialLCH, T>;
+    rgb: DispatchCall<PartialRGB, T, V>;
+    hsl: DispatchCall<PartialHSL, T, V>;
+    hsv: DispatchCall<PartialHSV, T, V>;
+    hsi: DispatchCall<PartialHSI, T, V>;
+    hwb: DispatchCall<PartialHWB, T, V>;
+    hcg: DispatchCall<PartialHCG, T, V>;
+    cmy: DispatchCall<PartialCMY, T, V>;
+    cmyk: DispatchCall<PartialCMYK, T, V>;
+    xyz: DispatchCall<PartialXYZ, T, V>;
+    lab: DispatchCall<PartialLAB, T, V>;
+    lch: DispatchCall<PartialLCH, T, V>;
   },
   input: ColorSpecification,
-  ...args: unknown[]
+  ...args: V[]
 ): T {
   const color = typeof input === 'string' ? parse(input) : input;
 
@@ -706,7 +703,7 @@ export function deltaE1976(color1: ColorSpecification, color2: ColorSpecificatio
 }
 
 export function deltaE1994(color1: ColorSpecification, color2: ColorSpecification): number {
-  return colorCompare.deltaE1994(toLAB(color1), toLAB(color2));
+  return deltaE1994(toLAB(color1), toLAB(color2));
 }
 
 export function deltaE2000(color1: ColorSpecification, color2: ColorSpecification): number {
@@ -714,7 +711,7 @@ export function deltaE2000(color1: ColorSpecification, color2: ColorSpecificatio
 }
 
 export function deltaCMC(color1: ColorSpecification, color2: ColorSpecification): number {
-  return colorCompare.deltaCMC(toLAB(color1), toLAB(color2));
+  return deltaCMC(toLAB(color1), toLAB(color2));
 }
 
 export const attributes = {

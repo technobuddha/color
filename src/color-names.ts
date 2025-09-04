@@ -1,6 +1,6 @@
-import { type Alpha } from './color.js';
-import { type ORGB, type RGB } from './rgb.js';
-import rgb from './rgb.js';
+import { type Alpha } from './color.ts';
+import { type ORGB, type RGB } from './rgb.ts';
+import { rgb } from './rgb.ts';
 
 export const colorNames: readonly { name: string; color: Alpha & ORGB }[] = [
   {
@@ -603,5 +603,3 @@ export function findName(color: RGB): string | undefined {
 
   return undefined;
 }
-
-export default colorNames;
