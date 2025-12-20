@@ -2,16 +2,15 @@
 // 🚨 CHANGES TO THIS FILE WILL BE OVERRIDDEN
 // 🚨
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
-    "rootDir": ".",
-    "outDir": "../dist",
-    "types": ["node", "vite/client", "jest"],
+    "types": [],
     "lib": ["esnext"],
-    "noEmit": true
+    "rootDir": ".",
+    "outDir": "../dist"
   },
-  "include": ["*.test.ts"],
-  "exclude": [],
-  "references": [{ "path": "./tsconfig.code.json" }]
+  "include": ["**/*.ts", "**/*.d.ts"],
+  "exclude": ["**/__tests__"]
 }

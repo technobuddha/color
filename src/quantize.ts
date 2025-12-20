@@ -1,7 +1,5 @@
 /* eslint-disable no-bitwise */
-/* eslint-disable @typescript-eslint/no-shadow */
-import { compareNumbers } from './compare-numbers.ts';
-import { PriorityQueue } from './priority-queue.ts';
+import { compareNumbers, PriorityQueue } from '@technobuddha/library';
 
 //
 // quantize.js Copyright 2008 Nick Rabinowitz
@@ -388,7 +386,7 @@ export function quantize(pixels: RGB[], maxColors: number): ColorMap | undefined
   // get the beginning vbox from the colors
   const vbox = VBox.fromPixels(pixels, histogram);
   const pq = new PriorityQueue<VBox>((a, b) => compareNumbers(b.colorCount(), a.colorCount()));
-  pq.push(vbox);
+  pq.enqueue(vbox);
 
   // inner function to do the iteration
   function split(target: number): void {
@@ -400,16 +398,16 @@ export function quantize(pixels: RGB[], maxColors: number): ColorMap | undefined
         break;
       }
 
-      const vbox = pq.pop();
+      const vbox = pq.dequeue();
       if (vbox?.pixelCount()) {
         // do the cut
         const vBoxes = medianCut(histogram, vbox);
         const [vbox1, vbox2] = vBoxes;
 
         if (vbox1) {
-          pq.push(vbox1);
+          pq.enqueue(vbox1);
           if (vbox2) {
-            pq.push(vbox2);
+            pq.enqueue(vbox2);
             nColors++;
           }
         }

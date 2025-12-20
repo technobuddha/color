@@ -1,16 +1,16 @@
 /* eslint-disable no-bitwise */
 import path from 'node:path';
 
+import { create2dArray, empty } from '@technobuddha/library';
 import { Jimp } from 'jimp';
 
-import { create2DArray } from './create-2-d-array.ts';
-import { quantize, type RGB } from './quantize.ts';
-import { empty } from './unicode.ts';
+import { quantize, type RGB } from '../quantize.ts';
+
 
 type Image = Awaited<ReturnType<typeof Jimp.read>>;
 
 function pixelsFromImage(image: Image): RGB[][] {
-  return create2DArray(image.bitmap.width, image.bitmap.height, (x, y) => {
+  return create2dArray(image.bitmap.width, image.bitmap.height, (x, y) => {
     const p = image.getPixelColor(x, y);
     return {
       r: (p & 0xff000000) >>> 24,
