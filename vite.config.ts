@@ -1,15 +1,20 @@
 // 🚨
 // 🚨 CHANGES TO THIS FILE WILL BE OVERRIDDEN
 // 🚨
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { coverageConfigDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig(() => ({
+  plugins: [tsconfigPaths()],
   test: {
     setupFiles: ['./vitest.setup.ts'],
     root: './src',
     include: ['**/*.test.ts'],
     globals: true,
     environment: 'jsdom',
+    env: {
+      TZ: 'America/New_York',
+    },
     cache: false as const,
     typecheck: {
       enabled: true,
@@ -26,6 +31,7 @@ export default defineConfig(() => ({
         '**/@types',
         '**/@data',
         ...coverageConfigDefaults.exclude,
+        
       ],
     },
   },

@@ -18,16 +18,23 @@
   "packageManager": "yarn@4.6.0",
   "scripts": {
     "dev": "build default",
-    "build": "build prod"
+    "build": "build prod",
+    "start": "build default",
+    "publish": "build publish",
+    "test": "npx vitest --typecheck run",
+    "test:watch": "npx vitest --typecheck --no-coverage watch",
+    "test:full": "npx vitest --typecheck --mode=full run",
+    "lint": "npx eslint src",
+    "spell": "npx cspell lint src",
+    "preinstall": "git config core.hooksPath git-hooks"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-45",
+    "@technobuddha/project": "0.1.0-237",
     "cspell": "9.2.0",
     "jimp": "1.6.0",
     "typedoc": "0.28.12"
   },
   "technobuddhaProject": {
-    "version": "0.1.0-45",
     "created": "2025-02-10T15:54:42.955Z"
   },
   "type": "module",
