@@ -12,7 +12,7 @@ const config = {
       {
         name: 'Color',
         directory: ['./src'],
-        command: 'tsc -p ./src/tsconfig.json',
+        command: 'npx tsc -p ./src/tsconfig.json',
       },
     ],
   },

@@ -1,6 +1,6 @@
 {
   "name": "@technobuddha/color",
-  "version": "0.3.3-0",
+  "version": "0.3.3-2",
   "description": "Technobuddha color library",
   "author": {
     "name": "Phil Hill",
@@ -15,7 +15,7 @@
     "url": "https://github.com/technobuddha/@technobuddha/color/issues"
   },
   "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.12.0",
   "scripts": {
     "dev": "build default",
     "build": "build prod",
@@ -29,10 +29,8 @@
     "preinstall": "git config core.hooksPath git-hooks"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-237",
-    "cspell": "9.2.0",
-    "jimp": "1.6.0",
-    "typedoc": "0.28.12"
+    "@technobuddha/project": "0.1.0-299",
+    "jimp": "1.6.0"
   },
   "technobuddhaProject": {
     "created": "2025-02-10T15:54:42.955Z"
@@ -43,8 +41,5 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "@technobuddha/library": "2.1.0-26"
-  },
   "stableVersion": "0.3.2"
 }
