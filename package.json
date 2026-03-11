@@ -29,7 +29,7 @@
     "preinstall": "git config core.hooksPath git-hooks"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-299",
+    "@technobuddha/project": "0.1.0-418",
     "jimp": "1.6.0"
   },
   "technobuddhaProject": {

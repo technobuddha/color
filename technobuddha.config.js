@@ -6,6 +6,7 @@ const config = {
       environment: 'esnext',
     },
   },
+	typedoc: { readme: 'doc/intro.md' },
 };
 
 export default config;

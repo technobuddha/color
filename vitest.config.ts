@@ -24,13 +24,13 @@ export default defineConfig(() => ({
       skipFull: true,
       enabled: true,
       exclude: [
+        ...coverageConfigDefaults.exclude,
         '**/*.test.*',
         '**/*.config.*',
         'scripts/**/*.*',
         '**/index.ts',
         '**/@types',
         '**/@data',
-        ...coverageConfigDefaults.exclude,
         
       ],
     },
