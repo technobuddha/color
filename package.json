@@ -1,6 +1,6 @@
 {
   "name": "@technobuddha/color",
-  "version": "0.3.3-2",
+  "version": "0.3.3-3",
   "description": "Technobuddha color library",
   "author": {
     "name": "Phil Hill",
@@ -29,7 +29,7 @@
     "preinstall": "git config core.hooksPath git-hooks"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-418",
+    "@technobuddha/project": "0.1.0-446",
     "jimp": "1.6.0"
   },
   "technobuddhaProject": {
