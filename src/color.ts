@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import { type CMY, cmy, type PartialCMY } from './cmy.ts';
 import { type CMYK, cmyk, type PartialCMYK } from './cmyk.ts';
 import * as colorCompare from './color-compare.ts';

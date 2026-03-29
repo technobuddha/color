@@ -574,7 +574,7 @@ export const colorNames: readonly { name: string; color: Alpha & ORGB }[] = [
 ];
 
 function normalize(name: string): string {
-  return name.toLowerCase().replaceAll(/\s/gu, '');
+  return name.toLowerCase().replaceAll(/\s/gv, '');
 }
 
 const lookupByName = Object.freeze(

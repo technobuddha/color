@@ -33,7 +33,7 @@ type InternalRGB = Alpha & IRGB;
 export type PartialRGB = Alpha & (IRGB | ORGB | (IRGB & ORGB));
 export type RGB = Alpha & IRGB & ORGB;
 
-const testHEX = /^#(?:[0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/iu;
+const testHEX = /^#(?:[0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/iv;
 const testRGB = re`^rgba?${reOp}${rePercent}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
 
 function attributes(color: PartialRGB): {

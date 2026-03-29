@@ -3,7 +3,6 @@
 /** @type import('@technobuddha/project/build').Builds */
 const config = {
   default: {
-    watch: true,
     steps: [
       {
         name: 'Clean',
@@ -11,15 +10,9 @@ const config = {
       },
       {
         name: 'Color',
-        directory: ['./src'],
-        command: 'npx tsc -p ./src/tsconfig.json',
+        command: 'npx tsc --build ./src/tsconfig.json',
       },
     ],
-  },
-  prod: {
-    steps: [
-      { build: 'default' },
-    ]
   },
   publish: {
     steps: [
