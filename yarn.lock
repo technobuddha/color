@@ -2222,21 +2222,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@technobuddha/color@workspace:."
   dependencies:
-    "@technobuddha/project": "npm:0.1.0-460"
+    "@technobuddha/project": "npm:0.1.0-461"
     jimp: "npm:1.6.0"
   languageName: unknown
   linkType: soft
 
-"@technobuddha/library@npm:2.1.0-97":
-  version: 2.1.0-97
-  resolution: "@technobuddha/library@npm:2.1.0-97"
-  checksum: 10c0/ac62f6cd796bd91fdc22612104e19294622d4fc7d7d7590066ff72a824df33af69759ba7667d83b24da37026e55b8c3dd71af9d5b88de32cf77f23c0f21cdd7e
+"@technobuddha/library@npm:2.1.0-98":
+  version: 2.1.0-98
+  resolution: "@technobuddha/library@npm:2.1.0-98"
+  checksum: 10c0/4a0ddd0cfbd5f9ecdd66220b723a66b07acfdecb90a5aebff7ee90fbe57e4655b8953e3608e45ddf700bd339a4ce003c17cbd12afa0982b6da01e3c76f3478eb
   languageName: node
   linkType: hard
 
-"@technobuddha/project@npm:0.1.0-460":
-  version: 0.1.0-460
-  resolution: "@technobuddha/project@npm:0.1.0-460"
+"@technobuddha/project@npm:0.1.0-461":
+  version: 0.1.0-461
+  resolution: "@technobuddha/project@npm:0.1.0-461"
   dependencies:
     "@dotenvx/dotenvx": "npm:1.59.1"
     "@eslint-community/eslint-plugin-eslint-comments": "npm:4.7.1"
@@ -2244,7 +2244,7 @@ __metadata:
     "@inquirer/prompts": "npm:8.3.2"
     "@microsoft/tsdoc": "npm:0.16.0"
     "@microsoft/tsdoc-config": "npm:0.18.1"
-    "@technobuddha/library": "npm:2.1.0-97"
+    "@technobuddha/library": "npm:2.1.0-98"
     "@types/eslint": "npm:9.6.1"
     "@types/ignore-walk": "npm:4.0.3"
     "@types/jsdom": "npm:^28.0.1"
@@ -2310,7 +2310,7 @@ __metadata:
     find-unexported-files: dist/find-unexported-files/find-unexported-files.js
     sync: dist/sync/sync.js
     tb: dist/tb/tb.js
-  checksum: 10c0/d2706739c135f9944ca94233a7d22d17c4e0ec326b04b81d311bebf926a49126ced108a9507858e8ce8983bd35eaeb086337ce2cbf2fe5b78ec5e16f390cfabe
+  checksum: 10c0/f2ce607255b4b0dd541394ec5cf41754788a06662821a93618eb0c3fa9bd8287b5d36af5df4729053ea7c2d2c895766819bce1e44ee4357cb51a7ae68251f0f7
   languageName: node
   linkType: hard
 
