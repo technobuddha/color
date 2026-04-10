@@ -1,21 +1,25 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@technobuddha/color",
-  "version": "0.3.3-6",
   "description": "Technobuddha color library",
+  "version": "0.3.3-7",
+  "stableVersion": "0.3.2",
+  "license": "MIT",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "author": {
     "name": "Phil Hill",
     "email": "phil@technobuddha.com"
   },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/technobuddha/@technobuddha/color"
   },
+  "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
   "bugs": {
     "url": "https://github.com/technobuddha/@technobuddha/color/issues"
   },
-  "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
-  "packageManager": "yarn@4.12.0",
   "scripts": {
     "build": "build default",
     "start": "build dev",
@@ -27,18 +31,18 @@
     "spell": "npx cspell lint src",
     "preinstall": "git config core.hooksPath git-hooks"
   },
+  "dependencies": {
+    "@technobuddha/library": "2.1.0-102"
+  },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-461",
+    "@technobuddha/project": "0.1.0-512",
     "jimp": "1.6.0"
+  },
+  "engines": {
+    "node": ">=25.0.0"
   },
   "technobuddhaProject": {
     "created": "2025-02-10T15:54:42.955Z"
   },
-  "type": "module",
-  "engines": {
-    "node": ">=25.0.0"
-  },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "stableVersion": "0.3.2"
+  "packageManager": "yarn@4.12.0"
 }

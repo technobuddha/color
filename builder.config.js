@@ -23,7 +23,7 @@ const config = {
       },
       {
         name: 'Publish',
-        command: 'yarn npm publish',
+        command: 'yarn npm publish --access=public',
       }
     ]
   }
