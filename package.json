@@ -32,10 +32,10 @@
     "preinstall": "git config core.hooksPath git-hooks"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-102"
+    "@technobuddha/library": "2.1.0-106"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.1.0-512",
+    "@technobuddha/project": "0.1.0-527",
     "@types/node": "25.6.0",
     "@vitest/coverage-v8": "4.1.4",
     "cspell": "10.0.0",
@@ -51,5 +51,5 @@
   "technobuddhaProject": {
     "created": "2025-02-10T15:54:42.955Z"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.13.0"
 }
