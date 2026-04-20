@@ -30,6 +30,6 @@ if (import.meta.env.MODE === 'full') {
           });
         }
       }
-    });
+    }).catch(() => {});
   });
 }

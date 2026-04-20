@@ -11,7 +11,6 @@ import {
   type PartialColor,
   type RGB,
   type StringOptions,
-  toLAB,
   type XYZ,
 } from './color.ts';
 import { type ColorSpace } from './color-space.ts';
@@ -109,7 +108,7 @@ export const lch: ColorSpace<LCH, PartialLCH, InternalLCH> = {
   },
 
   toXYZ(color: PartialLCH): XYZ {
-    return lab.toXYZ(toLAB(color));
+    return lab.toXYZ(lch.toLAB(color));
   },
 
   toLAB(color: PartialLCH): LAB {
