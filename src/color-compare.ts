@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type LAB, type RGB } from './color.js';
-import lab from './lab.js';
-import lch from './lch.js';
-import { toDegrees, toRadians } from './util.js';
+import { type LAB, type RGB } from './color.ts';
+import { lab } from './lab.ts';
+import { lch } from './lch.ts';
+import { toDegrees, toRadians } from './util.ts';
 
 export function colorDistance(color: RGB, other: RGB): number {
   const rMean = (255 * (color.red + other.red)) / 2;
@@ -191,5 +191,3 @@ export function deltaCMC(color1: LAB, color2: LAB): number {
 
   return Math.hypot((l2 - l1) / (Kl * Sl), (c2 - c1) / (Kc * Sc), ΔH / Sh);
 }
-
-export default { colorDistance, deltaC, deltaH, deltaE1976, deltaE1994, deltaE2000, deltaCMC };

@@ -1,36 +1,55 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@technobuddha/color",
-  "version": "0.3.2",
   "description": "Technobuddha color library",
+  "version": "0.3.3-9",
+  "stableVersion": "0.3.2",
+  "license": "MIT",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "author": {
     "name": "Phil Hill",
     "email": "phil@technobuddha.com"
   },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/technobuddha/@technobuddha/color"
   },
+  "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
   "bugs": {
     "url": "https://github.com/technobuddha/@technobuddha/color/issues"
   },
-  "homepage": "https://github.com/technobuddha/@technobuddha/color#readme",
-  "packageManager": "yarn@4.6.0",
   "scripts": {
-    "build": "tsc -b src"
+    "build": "build default",
+    "start": "build dev",
+    "publish": "build publish",
+    "test": "npx vitest --typecheck run",
+    "test:watch": "npx vitest --typecheck --no-coverage watch",
+    "test:full": "npx vitest --typecheck --mode=full run",
+    "lint": "npx eslint src",
+    "spell": "npx cspell lint src",
+    "preinstall": "git config core.hooksPath git-hooks"
+  },
+  "dependencies": {
+    "@technobuddha/library": "2.1.0-111"
   },
   "devDependencies": {
-    "@technobuddha/project": "0.0.176"
+    "@technobuddha/project": "1.0.0-8",
+    "@types/node": "25.6.0",
+    "@vitest/coverage-v8": "4.1.4",
+    "cspell": "10.0.0",
+    "jimp": "1.6.0",
+    "jsdom": "29.0.2",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  },
+  "engines": {
+    "node": ">=25.0.0"
   },
   "technobuddhaProject": {
-    "version": "0.0.159",
-    "created": "2025-02-10T15:54:42.955Z",
-    "updated": "2025-02-20T20:05:59.116Z"
+    "created": "2025-02-10T15:54:42.955Z"
   },
-  "type": "module",
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts"
+  "packageManager": "yarn@4.13.0"
 }

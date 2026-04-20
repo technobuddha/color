@@ -12,9 +12,9 @@ import {
   type RGB,
   type StringOptions,
   type XYZ,
-} from './color.js';
-import { type ColorSpace } from './color-space.js';
-import rgb from './rgb.js';
+} from './color.ts';
+import { type ColorSpace } from './color-space.ts';
+import { rgb } from './rgb.ts';
 import {
   approxEq,
   getAngle,
@@ -27,7 +27,7 @@ import {
   rePercent,
   reSep,
   round,
-} from './util.js';
+} from './util.ts';
 
 type OHSI = { h: number; s: number; i: number };
 type IHSI = { hue: number; saturation: number; intensity: number };
@@ -35,192 +35,170 @@ type InternalHSI = Alpha & IHSI;
 export type PartialHSI = Alpha & (IHSI | OHSI | (IHSI & OHSI));
 export type HSI = Alpha & IHSI & OHSI;
 
-export function is(color: PartialColor): color is PartialHSI {
-  return (
-    ('h' in color && 's' in color && 'i' in color) ||
-    ('hue' in color && 'saturation' in color && 'intensity' in color)
-  );
-}
+export const hsi: ColorSpace<HSI, PartialHSI, InternalHSI> = {
+  is(color: PartialColor): color is PartialHSI {
+    return (
+      ('h' in color && 's' in color && 'i' in color) ||
+      ('hue' in color && 'saturation' in color && 'intensity' in color)
+    );
+  },
 
-export function internal(color: PartialHSI): InternalHSI {
-  if ('hue' in color && 'saturation' in color && 'intensity' in color) {
+  internal(color: PartialHSI): InternalHSI {
+    if ('hue' in color && 'saturation' in color && 'intensity' in color) {
+      return {
+        hue: color.hue,
+        saturation: color.saturation,
+        intensity: color.intensity,
+        alpha: color.alpha,
+      };
+    }
     return {
-      hue: color.hue,
-      saturation: color.saturation,
-      intensity: color.intensity,
+      hue: color.h / 360,
+      saturation: color.s / 100,
+      intensity: color.i / 100,
       alpha: color.alpha,
     };
-  }
-  return {
-    hue: color.h / 360,
-    saturation: color.s / 100,
-    intensity: color.i / 100,
-    alpha: color.alpha,
-  };
-}
+  },
 
-export function external({ hue, saturation, intensity, alpha }: InternalHSI): HSI {
-  const obj = {
-    h: round(hue * 360, 2),
-    s: round(saturation * 100, 2),
-    i: round(intensity * 100, 2),
-    hue,
-    saturation,
-    intensity,
-  };
+  external({ hue, saturation, intensity, alpha }: InternalHSI): HSI {
+    const obj = {
+      h: round(hue * 360, 2),
+      s: round(saturation * 100, 2),
+      i: round(intensity * 100, 2),
+      hue,
+      saturation,
+      intensity,
+    };
 
-  return alpha === undefined ? obj : { ...obj, alpha };
-}
+    return alpha === undefined ? obj : { ...obj, alpha };
+  },
 
-export function toRGB(color: PartialHSI): RGB {
-  const { hue, saturation, intensity, alpha } = internal(color);
-  let red = intensity;
-  let green = intensity;
-  let blue = intensity;
+  toRGB(color: PartialHSI): RGB {
+    const { hue, saturation, intensity, alpha } = hsi.internal(color);
+    let red = intensity;
+    let green = intensity;
+    let blue = intensity;
 
-  if (!approxEq(saturation, 0)) {
-    const H = hue * 6;
-    const Z = 1 - Math.abs((H % 2) - 1);
-    const C = (3 * intensity * saturation) / (1 + Z);
-    const X = C * Z;
+    if (!approxEq(saturation, 0)) {
+      const H = hue * 6;
+      const Z = 1 - Math.abs((H % 2) - 1);
+      const C = (3 * intensity * saturation) / (1 + Z);
+      const X = C * Z;
 
-    switch (Math.floor(H)) {
-      case 0: {
-        [red, green, blue] = [C, X, 0];
-        break;
-      }
-      case 1: {
-        [red, green, blue] = [X, C, 0];
-        break;
-      }
-      case 2: {
-        [red, green, blue] = [0, C, X];
-        break;
-      }
-      case 3: {
-        [red, green, blue] = [0, X, C];
-        break;
-      }
-      case 4: {
-        [red, green, blue] = [X, 0, C];
-        break;
-      }
-      case 5: {
-        [red, green, blue] = [C, 0, X];
-        break;
+      switch (Math.floor(H)) {
+        case 0: {
+          [red, green, blue] = [C, X, 0];
+          break;
+        }
+        case 1: {
+          [red, green, blue] = [X, C, 0];
+          break;
+        }
+        case 2: {
+          [red, green, blue] = [0, C, X];
+          break;
+        }
+        case 3: {
+          [red, green, blue] = [0, X, C];
+          break;
+        }
+        case 4: {
+          [red, green, blue] = [X, 0, C];
+          break;
+        }
+        case 5: {
+          [red, green, blue] = [C, 0, X];
+          break;
+        }
+
+        // no default
       }
 
-      // no default
+      const M = intensity * (1 - saturation);
+      red += M;
+      green += M;
+      blue += M;
     }
 
-    const M = intensity * (1 - saturation);
-    red += M;
-    green += M;
-    blue += M;
-  }
+    return rgb.external({ red, green, blue, alpha });
+  },
 
-  return rgb.external({ red, green, blue, alpha });
-}
+  toHSL(color: PartialHSI): HSL {
+    return rgb.toHSL(hsi.toRGB(color));
+  },
 
-export function toHSL(color: PartialHSI): HSL {
-  return rgb.toHSL(toRGB(color));
-}
+  toHSV(color: PartialHSI): HSV {
+    return rgb.toHSV(hsi.toRGB(color));
+  },
 
-export function toHSV(color: PartialHSI): HSV {
-  return rgb.toHSV(toRGB(color));
-}
+  toHSI(color: PartialHSI): HSI {
+    return hsi.external(hsi.internal(color));
+  },
 
-export function toHSI(color: PartialHSI): HSI {
-  return external(internal(color));
-}
+  toHWB(color: PartialHSI): HWB {
+    return rgb.toHWB(hsi.toRGB(color));
+  },
 
-export function toHWB(color: PartialHSI): HWB {
-  return rgb.toHWB(toRGB(color));
-}
+  toHCG(color: PartialHSI): HCG {
+    return rgb.toHCG(hsi.toRGB(color));
+  },
 
-export function toHCG(color: PartialHSI): HCG {
-  return rgb.toHCG(toRGB(color));
-}
+  toCMY(color: PartialHSI): CMY {
+    return rgb.toCMY(hsi.toRGB(color));
+  },
 
-export function toCMY(color: PartialHSI): CMY {
-  return rgb.toCMY(toRGB(color));
-}
+  toCMYK(color: PartialHSI): CMYK {
+    return rgb.toCMYK(hsi.toRGB(color));
+  },
 
-export function toCMYK(color: PartialHSI): CMYK {
-  return rgb.toCMYK(toRGB(color));
-}
+  toXYZ(color: PartialHSI): XYZ {
+    return rgb.toXYZ(hsi.toRGB(color));
+  },
 
-export function toXYZ(color: PartialHSI): XYZ {
-  return rgb.toXYZ(toRGB(color));
-}
+  toLAB(color: PartialHSI): LAB {
+    return rgb.toLAB(hsi.toRGB(color));
+  },
 
-export function toLAB(color: PartialHSI): LAB {
-  return rgb.toLAB(toRGB(color));
-}
+  toLCH(color: PartialHSI): LCH {
+    return rgb.toLCH(hsi.toRGB(color));
+  },
 
-export function toLCH(color: PartialHSI): LCH {
-  return rgb.toLCH(toRGB(color));
-}
+  parse(input: string): HSI | undefined {
+    const reRGB = re`^hsi${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
 
-export function parse(input: string): HSI | undefined {
-  const reRGB = re`^hsi${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
+    let match: RegExpMatchArray | null;
+    if ((match = reRGB.exec(input))) {
+      //#region RGB
+      if (match[4]) {
+        return hsi.toHSI({
+          h: getAngle(match[1]),
+          s: getPercent(match[2], 100),
+          i: getPercent(match[3], 100),
+          alpha: getPercent(match[4], 1),
+        });
+      }
 
-  let match: RegExpMatchArray | null;
-  if ((match = reRGB.exec(input))) {
-    //#region RGB
-    if (match[4]) {
-      return toHSI({
+      return hsi.toHSI({
         h: getAngle(match[1]),
         s: getPercent(match[2], 100),
         i: getPercent(match[3], 100),
-        alpha: getPercent(match[4], 1),
       });
+      //#endregion
     }
 
-    return toHSI({
-      h: getAngle(match[1]),
-      s: getPercent(match[2], 100),
-      i: getPercent(match[3], 100),
-    });
-    //#endregion
-  }
+    return undefined;
+  },
 
-  return undefined;
-}
+  string(input: PartialHSI, options: StringOptions): string {
+    const color = hsi.external(hsi.internal(input));
 
-export function string(input: PartialHSI, options: StringOptions): string {
-  const color = external(internal(input));
+    if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
+      return rgb.string(hsi.toRGB(color), options);
+    }
 
-  if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
-    return rgb.string(toRGB(color), options);
-  }
-
-  if (color.alpha) {
-    return `hsi(${color.h} ${color.s}% ${color.i}% / ${round(color.alpha * 100, 2)}%)`;
-  }
-  return `hsi(${color.h} ${color.s}% ${color.i}%)`;
-}
-
-const hsi: ColorSpace<HSI, PartialHSI, InternalHSI> = {
-  is,
-
-  internal,
-  external,
-
-  toRGB,
-  toHSL,
-  toHSV,
-  toHSI,
-  toHWB,
-  toHCG,
-  toCMY,
-  toCMYK,
-  toXYZ,
-  toLAB,
-  toLCH,
-
-  parse,
-  string,
+    if (color.alpha) {
+      return `hsi(${color.h} ${color.s}% ${color.i}% / ${round(color.alpha * 100, 2)}%)`;
+    }
+    return `hsi(${color.h} ${color.s}% ${color.i}%)`;
+  },
 };
-
-export default hsi;

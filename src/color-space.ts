@@ -13,7 +13,7 @@ import {
   type RGB,
   type StringOptions,
   type XYZ,
-} from './color.js';
+} from './color.ts';
 
 export type ColorSpace<Space extends Color, Partial extends PartialColor, Internal> = {
   is(this: void, color: PartialColor): color is Partial;
