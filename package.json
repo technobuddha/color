@@ -35,7 +35,7 @@
     "@technobuddha/library": "2.1.0-111"
   },
   "devDependencies": {
-    "@technobuddha/project": "1.0.0-5",
+    "@technobuddha/project": "1.0.0-8",
     "@types/node": "25.6.0",
     "@vitest/coverage-v8": "4.1.4",
     "cspell": "10.0.0",
