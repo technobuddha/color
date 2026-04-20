@@ -112,7 +112,7 @@ function attributes(color: PartialRGB): {
 export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
   is(color: PartialColor): color is PartialRGB {
     return (
-      ('r' in color && 'r' in color && 'b' in color) ||
+      ('r' in color && 'g' in color && 'b' in color) ||
       ('red' in color && 'green' in color && 'blue' in color)
     );
   },

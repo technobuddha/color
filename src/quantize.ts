@@ -377,11 +377,11 @@ export function quantize(pixels: RGB[], maxColors: number): ColorMap | undefined
 
   const histogram = new Histogram(pixels);
 
+  // TODO [>2.1]: generate the new colors from the histogram  and return
   // check that we aren't below maxColors already
-  const nColors = histogram.colors();
-  if (nColors <= maxColors) {
-    // TODO [>2.1]: generate the new colors from the histogram  and return
-  }
+  // const nColors = histogram.colors();
+  // if (nColors <= maxColors) {
+  // }
 
   // get the beginning vbox from the colors
   const vbox = VBox.fromPixels(pixels, histogram);

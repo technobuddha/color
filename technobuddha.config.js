@@ -3,10 +3,10 @@
 const config = {
   directories: {
     src: {
-      environment: 'esnext',
+      platform: 'esnext',
     },
   },
-	typedoc: { readme: 'doc/intro.md' },
+  typedoc: { readme: 'doc/intro.md' },
 };
 
 export default config;

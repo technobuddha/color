@@ -12,7 +12,6 @@ import {
   type PartialColor,
   type RGB,
   type StringOptions,
-  toRGB,
   type XYZ,
 } from './color.ts';
 import { type ColorSpace } from './color-space.ts';
@@ -120,7 +119,7 @@ export const cmyk: ColorSpace<CMYK, PartialCMYK, InternalCMYK> = {
   },
 
   toLCH(color: PartialCMYK): LCH {
-    return rgb.toLCH(toRGB(color));
+    return rgb.toLCH(cmyk.toRGB(color));
   },
 
   parse(input: string): CMYK | undefined {
@@ -158,7 +157,7 @@ export const cmyk: ColorSpace<CMYK, PartialCMYK, InternalCMYK> = {
       options.format === 'hex' ||
       (options.format === 'css' && options.cssVersion === 3)
     ) {
-      return rgb.string(toRGB(color), options);
+      return rgb.string(cmyk.toRGB(color), options);
     }
 
     if (options.format === 'css') {

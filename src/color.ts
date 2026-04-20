@@ -702,7 +702,7 @@ export function deltaE1976(color1: ColorSpecification, color2: ColorSpecificatio
 }
 
 export function deltaE1994(color1: ColorSpecification, color2: ColorSpecification): number {
-  return deltaE1994(toLAB(color1), toLAB(color2));
+  return colorCompare.deltaE1994(toLAB(color1), toLAB(color2));
 }
 
 export function deltaE2000(color1: ColorSpecification, color2: ColorSpecification): number {
@@ -710,7 +710,7 @@ export function deltaE2000(color1: ColorSpecification, color2: ColorSpecificatio
 }
 
 export function deltaCMC(color1: ColorSpecification, color2: ColorSpecification): number {
-  return deltaCMC(toLAB(color1), toLAB(color2));
+  return colorCompare.deltaCMC(toLAB(color1), toLAB(color2));
 }
 
 export const attributes = {
