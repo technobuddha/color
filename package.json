@@ -5,9 +5,9 @@
   "version": "0.3.3-9",
   "stableVersion": "0.3.2",
   "license": "MIT",
+  "main": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
-  "main": "dist/index.js",
   "author": {
     "name": "Phil Hill",
     "email": "phil@technobuddha.com"
@@ -29,21 +29,22 @@
     "test:full": "npx vitest --typecheck --mode=full run",
     "lint": "npx eslint src",
     "spell": "npx cspell lint src",
-    "preinstall": "git config core.hooksPath git-hooks"
+    "prepare": "npx husky"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-111"
+    "@technobuddha/library": "2.1.0-112"
   },
   "devDependencies": {
-    "@technobuddha/project": "1.0.0-9",
+    "@technobuddha/project": "1.0.0-23",
     "@types/node": "25.6.0",
-    "@vitest/coverage-v8": "4.1.4",
+    "@vitest/coverage-v8": "4.1.5",
     "cspell": "10.0.0",
+    "husky": "9.1.7",
     "jimp": "1.6.0",
     "jsdom": "29.0.2",
     "tsx": "4.21.0",
     "typescript": "6.0.3",
-    "vitest": "4.1.4"
+    "vitest": "4.1.5"
   },
   "engines": {
     "node": ">=25.0.0"
