@@ -1960,7 +1960,7 @@ __metadata:
   resolution: "@technobuddha/color@workspace:."
   dependencies:
     "@technobuddha/library": "npm:2.1.0-115"
-    "@technobuddha/project": "npm:1.0.0-30"
+    "@technobuddha/project": "npm:1.0.0-31"
     "@types/node": "npm:25.6.0"
     "@vitest/coverage-v8": "npm:4.1.5"
     cspell: "npm:10.0.0"
@@ -1987,9 +1987,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@technobuddha/project@npm:1.0.0-30":
-  version: 1.0.0-30
-  resolution: "@technobuddha/project@npm:1.0.0-30"
+"@technobuddha/project@npm:1.0.0-31":
+  version: 1.0.0-31
+  resolution: "@technobuddha/project@npm:1.0.0-31"
   dependencies:
     "@commander-js/extra-typings": "npm:14.0.0"
     "@dotenvx/dotenvx": "npm:1.63.0"
@@ -2062,7 +2062,7 @@ __metadata:
     eslint-comments: dist/eslint-comments/eslint-comments.js
     tb: dist/tb/tb.js
     unexported-files: dist/unexported-files/unexported-files.js
-  checksum: 10c0/21b3ecbb8667613d18e0d48c377d2bf83578021e5891b7fe143ff1d5b946ed25311ce23ae49c9c3747344455b3b653e57663356fea765b727103bb0a13e484c4
+  checksum: 10c0/66f3efb8dd533aa75364809fc1a1e9c512e32945802b0a0605286f2af123fac1dad239e4e4a15d6a98f7939b230ccb7a08c3504f0b1f1edefc3f215542dee878
   languageName: node
   linkType: hard
 

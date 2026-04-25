@@ -2,11 +2,11 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@technobuddha/color",
   "description": "Technobuddha color library",
-  "version": "0.3.3-9",
+  "version": "0.3.3-10",
   "stableVersion": "0.3.2",
   "license": "MIT",
-  "main": "dist/index.js",
   "type": "module",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": {
     "name": "Phil Hill",
@@ -35,7 +35,7 @@
     "@technobuddha/library": "2.1.0-115"
   },
   "devDependencies": {
-    "@technobuddha/project": "1.0.0-30",
+    "@technobuddha/project": "1.0.0-31",
     "@types/node": "25.6.0",
     "@vitest/coverage-v8": "4.1.5",
     "cspell": "10.0.0",
