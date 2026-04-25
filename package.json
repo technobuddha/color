@@ -32,10 +32,10 @@
     "prepare": "npx husky"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-112"
+    "@technobuddha/library": "2.1.0-115"
   },
   "devDependencies": {
-    "@technobuddha/project": "1.0.0-23",
+    "@technobuddha/project": "1.0.0-30",
     "@types/node": "25.6.0",
     "@vitest/coverage-v8": "4.1.5",
     "cspell": "10.0.0",
