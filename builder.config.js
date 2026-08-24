@@ -1,6 +1,6 @@
 //@ts-check
 
-/** @type import('@technobuddha/project/build').Builds */
+/** @type import('\@technobuddha/project/build').Builds */
 const config = {
   default: {
     steps: [
