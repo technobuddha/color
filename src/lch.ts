@@ -38,12 +38,9 @@ export type PartialLCH = Alpha & (ILCH | OLCH | (ILCH & OLCH));
 export type LCH = Alpha & ILCH & OLCH;
 
 export const lch: ColorSpace<LCH, PartialLCH, InternalLCH> = {
-  is(color: PartialColor): color is PartialLCH {
-    return (
-      ('l' in color && 'c' in color && 'h' in color) ||
-      ('lightness' in color && 'chroma' in color && 'hue' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialLCH =>
+    ('l' in color && 'c' in color && 'h' in color) ||
+    ('lightness' in color && 'chroma' in color && 'hue' in color),
 
   internal(color: PartialLCH): InternalLCH {
     if ('lightness' in color && 'chroma' in color && 'hue' in color) {
@@ -75,41 +72,23 @@ export const lch: ColorSpace<LCH, PartialLCH, InternalLCH> = {
     return alpha === undefined ? obj : { ...obj, alpha };
   },
 
-  toRGB(color: PartialLCH): RGB {
-    return lab.toRGB(lch.toLAB(color));
-  },
+  toRGB: (color: PartialLCH): RGB => lab.toRGB(lch.toLAB(color)),
 
-  toHSL(color: PartialLCH): HSL {
-    return rgb.toHSL(lab.toRGB(lch.toLAB(color)));
-  },
+  toHSL: (color: PartialLCH): HSL => rgb.toHSL(lab.toRGB(lch.toLAB(color))),
 
-  toHSV(color: PartialLCH): HSV {
-    return rgb.toHSV(lab.toRGB(lch.toLAB(color)));
-  },
+  toHSV: (color: PartialLCH): HSV => rgb.toHSV(lab.toRGB(lch.toLAB(color))),
 
-  toHWB(color: PartialLCH): HWB {
-    return rgb.toHWB(lab.toRGB(lch.toLAB(color)));
-  },
+  toHWB: (color: PartialLCH): HWB => rgb.toHWB(lab.toRGB(lch.toLAB(color))),
 
-  toHSI(color: PartialLCH): HSI {
-    return rgb.toHSI(lch.toRGB(color));
-  },
+  toHSI: (color: PartialLCH): HSI => rgb.toHSI(lch.toRGB(color)),
 
-  toHCG(color: PartialLCH): HCG {
-    return rgb.toHCG(lab.toRGB(lch.toLAB(color)));
-  },
+  toHCG: (color: PartialLCH): HCG => rgb.toHCG(lab.toRGB(lch.toLAB(color))),
 
-  toCMY(color: PartialLCH): CMY {
-    return rgb.toCMY(lch.toRGB(color));
-  },
+  toCMY: (color: PartialLCH): CMY => rgb.toCMY(lch.toRGB(color)),
 
-  toCMYK(color: PartialLCH): CMYK {
-    return rgb.toCMYK(lab.toRGB(lch.toLAB(color)));
-  },
+  toCMYK: (color: PartialLCH): CMYK => rgb.toCMYK(lab.toRGB(lch.toLAB(color))),
 
-  toXYZ(color: PartialLCH): XYZ {
-    return lab.toXYZ(lch.toLAB(color));
-  },
+  toXYZ: (color: PartialLCH): XYZ => lab.toXYZ(lch.toLAB(color)),
 
   toLAB(color: PartialLCH): LAB {
     const { lightness, chroma, hue, alpha } = lch.internal(color);
@@ -121,9 +100,7 @@ export const lch: ColorSpace<LCH, PartialLCH, InternalLCH> = {
     return lab.external({ lightness, redGreen, blueYellow, alpha });
   },
 
-  toLCH(color: PartialLCH): LCH {
-    return lch.external(lch.internal(color));
-  },
+  toLCH: (color: PartialLCH): LCH => lch.external(lch.internal(color)),
 
   parse(input: string): LCH | undefined {
     const reRGB = re`^lch${reOp}${rePercent}${reSep}${reNumber}${reSep}${reAngle}${reAlpha}${reCp}$`;

@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import { cmy } from './cmy.ts';
 import { cmyk } from './cmyk.ts';
 import {
@@ -71,7 +70,7 @@ function attributes(color: PartialRGB): {
     const deltaB = (max - blue) / 6 / chroma;
 
     if (approxEq(red, max)) {
-      hue = 0 / 3 + deltaB - deltaG;
+      hue = 0 + deltaB - deltaG;
     } else if (approxEq(green, max)) {
       hue = 1 / 3 + deltaR - deltaB;
     } else {
@@ -110,12 +109,9 @@ function attributes(color: PartialRGB): {
 }
 
 export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
-  is(color: PartialColor): color is PartialRGB {
-    return (
-      ('r' in color && 'g' in color && 'b' in color) ||
-      ('red' in color && 'green' in color && 'blue' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialRGB =>
+    ('r' in color && 'g' in color && 'b' in color) ||
+    ('red' in color && 'green' in color && 'blue' in color),
 
   internal(color: PartialRGB): InternalRGB {
     if ('red' in color && 'green' in color && 'blue' in color) {
@@ -137,9 +133,7 @@ export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
     return alpha === undefined ? obj : { ...obj, alpha };
   },
 
-  toRGB(color: PartialRGB): RGB {
-    return rgb.external(rgb.internal(color));
-  },
+  toRGB: (color: PartialRGB): RGB => rgb.external(rgb.internal(color)),
 
   toHSL(color: PartialRGB): HSL {
     const { hue, hslSaturation: saturation, lightness, alpha } = attributes(color);
@@ -197,13 +191,9 @@ export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
     return xyz.external({ X, Y, Z, alpha });
   },
 
-  toLAB(color: PartialRGB): LAB {
-    return xyz.toLAB(rgb.toXYZ(color));
-  },
+  toLAB: (color: PartialRGB): LAB => xyz.toLAB(rgb.toXYZ(color)),
 
-  toLCH(color: PartialRGB): LCH {
-    return lab.toLCH(rgb.toLAB(color));
-  },
+  toLCH: (color: PartialRGB): LCH => lab.toLCH(rgb.toLAB(color)),
 
   parse(input: string): RGB | undefined {
     let match: RegExpMatchArray | null;
@@ -279,9 +269,7 @@ export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
       if (name) {
         return name;
       }
-    }
-
-    if (options.format === 'hex') {
+    } else if (options.format === 'hex') {
       const rHex = round(color.r, 0).toString(16).padStart(2, '0');
       const gHex = round(color.g, 0).toString(16).padStart(2, '0');
       const bHex = round(color.b, 0).toString(16).padStart(2, '0');
@@ -299,7 +287,8 @@ export const rgb: ColorSpace<RGB, PartialRGB, InternalRGB> = {
           return `#${rHex[0]}${gHex[0]}${bHex[0]}`;
         }
         return `#${rHex}${gHex}${bHex}`;
-      } else if (options.cssVersion === 4) {
+      }
+      if (options.cssVersion === 4) {
         const aHex = Math.round(input.alpha * 255)
           .toString(16)
           .padStart(2, '0');

@@ -40,12 +40,9 @@ export type HSL = Alpha & IHSL & OHSL;
 const testHSL = re`^hsla?${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
 
 export const hsl: ColorSpace<HSL, PartialHSL, InternalHSL> = {
-  is(color: PartialColor): color is PartialHSL {
-    return (
-      ('h' in color && 's' in color && 'l' in color) ||
-      ('hue' in color && 'saturation' in color && 'lightness' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialHSL =>
+    ('h' in color && 's' in color && 'l' in color) ||
+    ('hue' in color && 'saturation' in color && 'lightness' in color),
 
   internal(color: PartialHSL): InternalHSL {
     if ('hue' in color && 'saturation' in color && 'lightness' in color) {
@@ -79,8 +76,11 @@ export const hsl: ColorSpace<HSL, PartialHSL, InternalHSL> = {
 
   toRGB(color: PartialHSL): RGB {
     const { hue, saturation, lightness, alpha } = hsl.internal(color);
+    // eslint-disable-next-line no-useless-assignment
     let red = 0;
+    // eslint-disable-next-line no-useless-assignment
     let green = 0;
+    // eslint-disable-next-line no-useless-assignment
     let blue = 0;
 
     if (saturation === 0) {
@@ -124,9 +124,7 @@ export const hsl: ColorSpace<HSL, PartialHSL, InternalHSL> = {
     return rgb.external({ red, green, blue, alpha });
   },
 
-  toHSL(color: PartialHSL): HSL {
-    return hsl.external(hsl.internal(color));
-  },
+  toHSL: (color: PartialHSL): HSL => hsl.external(hsl.internal(color)),
 
   toHSV(color: PartialHSL): HSV {
     let { hue, saturation, lightness, alpha } = hsl.internal(color);
@@ -144,46 +142,29 @@ export const hsl: ColorSpace<HSL, PartialHSL, InternalHSL> = {
     return hsv.external({ hue, saturation, value, alpha });
   },
 
-  toHSI(color: PartialHSL): HSI {
-    return rgb.toHSI(hsl.toRGB(color));
-  },
+  toHSI: (color: PartialHSL): HSI => rgb.toHSI(hsl.toRGB(color)),
 
-  toHWB(color: PartialHSL): HWB {
-    return hcg.toHWB(hsl.toHCG(color));
-  },
+  toHWB: (color: PartialHSL): HWB => hcg.toHWB(hsl.toHCG(color)),
 
   toHCG(color: PartialHSL): HCG {
     const { hue, saturation, lightness, alpha } = hsl.internal(color);
     const chroma =
       lightness < 0.5 ? 2.0 * saturation * lightness : 2.0 * saturation * (1.0 - lightness);
 
-    let greyness = 0;
-    if (chroma < 1.0) {
-      greyness = (lightness - 0.5 * chroma) / (1.0 - chroma);
-    }
+    const greyness = chroma < 1.0 ? (lightness - 0.5 * chroma) / (1.0 - chroma) : 0;
 
     return hcg.external({ hue, chroma, greyness, alpha });
   },
 
-  toCMY(color: PartialHSL): CMY {
-    return rgb.toCMY(hsl.toRGB(color));
-  },
+  toCMY: (color: PartialHSL): CMY => rgb.toCMY(hsl.toRGB(color)),
 
-  toCMYK(color: PartialHSL): CMYK {
-    return rgb.toCMYK(hsl.toRGB(color));
-  },
+  toCMYK: (color: PartialHSL): CMYK => rgb.toCMYK(hsl.toRGB(color)),
 
-  toXYZ(color: PartialHSL): XYZ {
-    return rgb.toXYZ(hsl.toRGB(color));
-  },
+  toXYZ: (color: PartialHSL): XYZ => rgb.toXYZ(hsl.toRGB(color)),
 
-  toLAB(color: PartialHSL): LAB {
-    return rgb.toLAB(hsl.toRGB(color));
-  },
+  toLAB: (color: PartialHSL): LAB => rgb.toLAB(hsl.toRGB(color)),
 
-  toLCH(color: PartialHSL): LCH {
-    return lab.toLCH(hsl.toLAB(color));
-  },
+  toLCH: (color: PartialHSL): LCH => lab.toLCH(hsl.toLAB(color)),
   parse(input: string): HSL | undefined {
     let match: RegExpMatchArray | null;
     if ((match = testHSL.exec(input))) {

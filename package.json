@@ -1,16 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@technobuddha/color",
+  "version": "0.3.3-12",
   "description": "Technobuddha color library",
-  "version": "0.3.3-10",
-  "stableVersion": "0.3.2",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": {
     "name": "Phil Hill",
-    "email": "phil@technobuddha.com"
+    "email": "phil@technobuddha.com",
+    "url": "https://technobuddha.com"
   },
   "repository": {
     "type": "git",
@@ -29,22 +29,23 @@
     "test:full": "npx vitest --typecheck --mode=full run",
     "lint": "npx eslint src",
     "spell": "npx cspell lint src",
-    "prepare": "npx husky"
+    "prepare": "husky"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-115"
+    "@technobuddha/library": "2.1.0-183",
+    "jimp": "1.6.0"
   },
   "devDependencies": {
-    "@technobuddha/project": "1.0.0-31",
-    "@types/node": "25.6.0",
-    "@vitest/coverage-v8": "4.1.5",
-    "cspell": "10.0.0",
+    "@cspell/cspell-types": "10.0.1",
+    "@technobuddha/project": "1.0.0-183",
+    "@types/node": "26.2.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "cspell": "10.0.1",
     "husky": "9.1.7",
-    "jimp": "1.6.0",
-    "jsdom": "29.0.2",
-    "tsx": "4.21.0",
+    "jsdom": "30.0.1",
+    "tsx": "4.23.12",
     "typescript": "6.0.3",
-    "vitest": "4.1.5"
+    "vitest": "4.1.10"
   },
   "engines": {
     "node": ">=25.0.0"
@@ -52,5 +53,5 @@
   "technobuddhaProject": {
     "created": "2025-02-10T15:54:42.955Z"
   },
-  "packageManager": "yarn@4.13.0"
+  "packageManager": "yarn@4.18.0"
 }

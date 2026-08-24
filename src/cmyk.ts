@@ -25,12 +25,9 @@ export type PartialCMYK = Alpha & (ICYMK | OCYMK | (ICYMK & OCYMK));
 export type CMYK = Alpha & ICYMK & OCYMK;
 
 export const cmyk: ColorSpace<CMYK, PartialCMYK, InternalCMYK> = {
-  is(color: PartialColor): color is PartialCMYK {
-    return (
-      ('c' in color && 'm' in color && 'y' in color && 'k' in color) ||
-      ('cyan' in color && 'magenta' in color && 'yellow' in color && 'black' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialCMYK =>
+    ('c' in color && 'm' in color && 'y' in color && 'k' in color) ||
+    ('cyan' in color && 'magenta' in color && 'yellow' in color && 'black' in color),
 
   internal(color: PartialCMYK): InternalCMYK {
     if ('cyan' in color && 'magenta' in color && 'yellow' in color && 'black' in color) {
@@ -76,25 +73,15 @@ export const cmyk: ColorSpace<CMYK, PartialCMYK, InternalCMYK> = {
     return rgb.external({ red, green, blue, alpha });
   },
 
-  toHSL(color: PartialCMYK): HSL {
-    return rgb.toHSL(cmyk.toRGB(color));
-  },
+  toHSL: (color: PartialCMYK): HSL => rgb.toHSL(cmyk.toRGB(color)),
 
-  toHSV(color: PartialCMYK): HSV {
-    return rgb.toHSV(cmyk.toRGB(color));
-  },
+  toHSV: (color: PartialCMYK): HSV => rgb.toHSV(cmyk.toRGB(color)),
 
-  toHSI(color: PartialCMYK): HSI {
-    return rgb.toHSI(cmyk.toRGB(color));
-  },
+  toHSI: (color: PartialCMYK): HSI => rgb.toHSI(cmyk.toRGB(color)),
 
-  toHWB(color: PartialCMYK): HWB {
-    return rgb.toHWB(cmyk.toRGB(color));
-  },
+  toHWB: (color: PartialCMYK): HWB => rgb.toHWB(cmyk.toRGB(color)),
 
-  toHCG(color: PartialCMYK): HCG {
-    return rgb.toHCG(cmyk.toRGB(color));
-  },
+  toHCG: (color: PartialCMYK): HCG => rgb.toHCG(cmyk.toRGB(color)),
 
   toCMY(color: PartialCMYK): CMY {
     let { cyan, magenta, yellow, black, alpha } = cmyk.internal(color);
@@ -106,21 +93,13 @@ export const cmyk: ColorSpace<CMYK, PartialCMYK, InternalCMYK> = {
     return cmy.external({ cyan, magenta, yellow, alpha });
   },
 
-  toCMYK(color: PartialCMYK): CMYK {
-    return cmyk.external(cmyk.internal(color));
-  },
+  toCMYK: (color: PartialCMYK): CMYK => cmyk.external(cmyk.internal(color)),
 
-  toXYZ(color: PartialCMYK): XYZ {
-    return rgb.toXYZ(cmyk.toRGB(color));
-  },
+  toXYZ: (color: PartialCMYK): XYZ => rgb.toXYZ(cmyk.toRGB(color)),
 
-  toLAB(color: PartialCMYK): LAB {
-    return rgb.toLAB(cmyk.toRGB(color));
-  },
+  toLAB: (color: PartialCMYK): LAB => rgb.toLAB(cmyk.toRGB(color)),
 
-  toLCH(color: PartialCMYK): LCH {
-    return rgb.toLCH(cmyk.toRGB(color));
-  },
+  toLCH: (color: PartialCMYK): LCH => rgb.toLCH(cmyk.toRGB(color)),
 
   parse(input: string): CMYK | undefined {
     const reRGB = re`^(?:device-)?cmyk${reOp}${rePercent}${reSep}${rePercent}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;

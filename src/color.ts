@@ -38,7 +38,7 @@ export type PartialColor =
   | PartialLAB
   | PartialLCH;
 export type ColorSpecification = PartialColor | string;
-export type AmountRatio = { ratio: number } | { amount: number } | number;
+export type AmountRatio = number | { ratio: number } | { amount: number };
 
 type DispatchCall<S, T, V> = (this: void, color: S, ...args: V[]) => T;
 const colorSpaceError = new TypeError('Unidentifiable color space.');
@@ -261,14 +261,19 @@ export function toColor(input: ColorSpecification): Color {
 
   if (hsl.is(color)) {
     return hsl.toHSL(color);
-  } else if (hsv.is(color)) {
+  }
+  if (hsv.is(color)) {
     return hsv.toHSV(color);
-  } else if (hsi.is(color)) {
+  }
+  if (hsi.is(color)) {
     return hsi.toHSI(color);
-  } else if (hwb.is(color)) {
+  }
+  if (hwb.is(color)) {
     return hwb.toHWB(color);
-  } else if (hcg.is(color)) {
+  }
+  if (hcg.is(color)) {
     return hcg.toHCG(color);
+    // eslint-disable-next-line unicorn/no-useless-else
   } else if (cmyk.is(color)) {
     return cmyk.toCMYK(color);
   } else if (cmy.is(color)) {
@@ -497,28 +502,38 @@ function conform(reference: ColorSpecification): (c: Color) => Color {
   const color = typeof reference === 'string' ? parse(reference) : reference;
 
   if (hsl.is(color)) {
-    return toHSL as (c: Color) => Color;
-  } else if (hsv.is(color)) {
-    return toHSV as (c: Color) => Color;
-  } else if (hsi.is(color)) {
-    return toHSI as (c: Color) => Color;
-  } else if (hwb.is(color)) {
-    return toHWB as (c: Color) => Color;
-  } else if (hcg.is(color)) {
-    return toHCG as (c: Color) => Color;
-  } else if (cmyk.is(color)) {
-    return toCMYK as (c: Color) => Color;
-  } else if (cmy.is(color)) {
-    return toCMY as (c: Color) => Color;
-  } else if (xyz.is(color)) {
+    return toHSL;
+  }
+  if (hsv.is(color)) {
+    return toHSV;
+  }
+  if (hsi.is(color)) {
+    return toHSI;
+  }
+  if (hwb.is(color)) {
+    return toHWB;
+  }
+  if (hcg.is(color)) {
+    return toHCG;
+  }
+  if (cmyk.is(color)) {
+    return toCMYK;
+  }
+  if (cmy.is(color)) {
+    return toCMY;
+  }
+  if (xyz.is(color)) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return toXYZ as (c: Color) => Color;
-  } else if (lab.is(color)) {
-    return toLAB as (c: Color) => Color;
-  } else if (lch.is(color)) {
-    return toLCH as (c: Color) => Color;
+  }
+  if (lab.is(color)) {
+    return toLAB;
+  }
+  if (lch.is(color)) {
+    return toLCH;
   }
 
-  return toRGB as (c: Color) => Color;
+  return toRGB;
 }
 
 export function luminosity(color: ColorSpecification): number {
@@ -538,7 +553,7 @@ export function contrast(color1: ColorSpecification, color2: ColorSpecification)
 }
 
 export function isDark(color: ColorSpecification): boolean {
-  // YIQ equation from http://24ways.org/2010/calculating-color-contrast
+  // YIQ equation from https://24ways.org/2010/calculating-color-contrast
   const { r, g, b } = toRGB(color);
   const yiq = (r * 299 + g * 587 + b * 114) / 1000;
   return yiq < 128;

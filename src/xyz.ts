@@ -40,12 +40,9 @@ export type PartialXYZ = Alpha & (IXYZ | OXYZ | (IXYZ & OXYZ));
 export type XYZ = Alpha & IXYZ & OXYZ;
 
 export const xyz: ColorSpace<XYZ, PartialXYZ, InternalXYZ> = {
-  is(color: PartialColor): color is PartialXYZ {
-    return (
-      ('x' in color && 'y' in color && 'z' in color) ||
-      ('X' in color && 'Y' in color && 'Z' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialXYZ =>
+    ('x' in color && 'y' in color && 'z' in color) ||
+    ('X' in color && 'Y' in color && 'Z' in color),
 
   internal(color: PartialXYZ): InternalXYZ {
     if ('X' in color && 'Y' in color && 'Z' in color) {
@@ -87,42 +84,25 @@ export const xyz: ColorSpace<XYZ, PartialXYZ, InternalXYZ> = {
     return rgb.external({ red, green, blue, alpha });
   },
 
-  toHSL(color: PartialXYZ): HSL {
-    return rgb.toHSL(xyz.toRGB(color));
-  },
+  toHSL: (color: PartialXYZ): HSL => rgb.toHSL(xyz.toRGB(color)),
 
-  toHSV(color: PartialXYZ): HSV {
-    return rgb.toHSV(xyz.toRGB(color));
-  },
+  toHSV: (color: PartialXYZ): HSV => rgb.toHSV(xyz.toRGB(color)),
 
-  toHSI(color: PartialXYZ): HSI {
-    return rgb.toHSI(xyz.toRGB(color));
-  },
+  toHSI: (color: PartialXYZ): HSI => rgb.toHSI(xyz.toRGB(color)),
 
-  toHWB(color: PartialXYZ): HWB {
-    return rgb.toHWB(xyz.toRGB(color));
-  },
+  toHWB: (color: PartialXYZ): HWB => rgb.toHWB(xyz.toRGB(color)),
 
-  toHCG(color: PartialXYZ): HCG {
-    return rgb.toHCG(xyz.toRGB(color));
-  },
+  toHCG: (color: PartialXYZ): HCG => rgb.toHCG(xyz.toRGB(color)),
 
-  toCMY(color: PartialXYZ): CMY {
-    return rgb.toCMY(xyz.toRGB(color));
-  },
+  toCMY: (color: PartialXYZ): CMY => rgb.toCMY(xyz.toRGB(color)),
 
-  toCMYK(color: PartialXYZ): CMYK {
-    return rgb.toCMYK(xyz.toRGB(color));
-  },
+  toCMYK: (color: PartialXYZ): CMYK => rgb.toCMYK(xyz.toRGB(color)),
 
-  toXYZ(color: PartialXYZ): XYZ {
-    return xyz.external(xyz.internal(color));
-  },
+  toXYZ: (color: PartialXYZ): XYZ => xyz.external(xyz.internal(color)),
 
   toLAB(color: PartialXYZ): LAB {
     let { X, Y, Z, alpha } = xyz.internal(color);
     X /= 0.95047;
-    Y /= 1.0;
     Z /= 1.08883;
 
     X = X > 216 / 24389 ? X ** (1 / 3) : ((24389 / 27) * X + 16) / 116;
@@ -136,12 +116,11 @@ export const xyz: ColorSpace<XYZ, PartialXYZ, InternalXYZ> = {
     return lab.external({ lightness, redGreen, blueYellow, alpha });
   },
 
-  toLCH(color: PartialXYZ): LCH {
-    return lab.toLCH(xyz.toLAB(color));
-  },
+  toLCH: (color: PartialXYZ): LCH => lab.toLCH(xyz.toLAB(color)),
 
   parse(input: string): XYZ | undefined {
     let match: RegExpMatchArray | null;
+    // eslint-disable-next-line no-useless-assignment
     if ((match = testXYZ.exec(input) ?? (match = testColor.exec(input)))) {
       //#region XYZ
       if (match[4]) {

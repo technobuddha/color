@@ -35,7 +35,6 @@ export function re(template: TemplateStringsArray, ...args: RegExp[]): RegExp {
   return new RegExp(res.filter(Boolean).join(''), 'iu');
 }
 
-// eslint-disable-next-line unicorn/better-regex
 export const reSep = /(?:\s*,\s*|\s+)/;
 export const reSpace = /\s+/;
 export const reOp = /(?:\s*\(\s*)/;
@@ -48,25 +47,28 @@ export const reAlpha = re`(?:\\s*[,/]\\s*${rePercent})?`;
 
 export function getPercent(input: string, scale: number, precision = 2): number {
   if (input.endsWith('%')) {
-    return round((Number.parseFloat(input.slice(0, -1)) * scale) / 100, precision);
+    return round((Number(input.slice(0, -1)) * scale) / 100, precision);
   }
-  return round(Number.parseFloat(input), precision);
+  return round(Number(input), precision);
 }
 
 export function getAngle(input: string, precision = 2): number {
   if (input.endsWith('deg')) {
-    return round(Number.parseFloat(input.slice(0, -3)), precision);
-  } else if (input.endsWith('grad')) {
-    //Test for grad first (both rad and grad end the same)
-    return round((Number.parseFloat(input.slice(0, -4)) * 360) / 400, precision);
-  } else if (input.endsWith('rad')) {
-    return round((Number.parseFloat(input.slice(0, -3)) * 360) / (Math.PI * 2), precision);
-  } else if (input.endsWith('turn')) {
-    return round(Number.parseFloat(input.slice(0, -4)) * 360, precision);
+    return round(Number(input.slice(0, -3)), precision);
   }
-  return round(Number.parseFloat(input), precision);
+  if (input.endsWith('grad')) {
+    //Test for grad first (both rad and grad end the same)
+    return round((Number(input.slice(0, -4)) * 360) / 400, precision);
+  }
+  if (input.endsWith('rad')) {
+    return round((Number(input.slice(0, -3)) * 360) / (Math.PI * 2), precision);
+  }
+  if (input.endsWith('turn')) {
+    return round(Number(input.slice(0, -4)) * 360, precision);
+  }
+  return round(Number(input), precision);
 }
 
 export function getNumber(input: string, precision = 2): number {
-  return round(Number.parseFloat(input), precision);
+  return round(Number(input), precision);
 }

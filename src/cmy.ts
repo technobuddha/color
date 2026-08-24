@@ -26,12 +26,8 @@ export type PartialCMY = Alpha & (ICMY | OCMY | (ICMY & OCMY));
 export type CMY = Alpha & ICMY & OCMY;
 
 export const cmy: ColorSpace<CMY, PartialCMY, InternalCMY> = {
-  is(color: PartialColor): color is PartialCMY {
-    return (
-      ('c' in color && 'm' in color && 'y' in color) ||
-      ('cyan' in color && 'magenta' in color && 'yellow' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialCMY => ('c' in color && 'm' in color && 'y' in color) ||
+      ('cyan' in color && 'magenta' in color && 'yellow' in color),
 
   internal(color: PartialCMY): InternalCMY {
     if ('cyan' in color && 'magenta' in color && 'yellow' in color) {
@@ -63,29 +59,17 @@ export const cmy: ColorSpace<CMY, PartialCMY, InternalCMY> = {
     return rgb.external({ red: 1 - cyan, green: 1 - magenta, blue: 1 - yellow, alpha });
   },
 
-  toHSL(color: PartialCMY): HSL {
-    return rgb.toHSL(cmy.toRGB(color));
-  },
+  toHSL: (color: PartialCMY): HSL => rgb.toHSL(cmy.toRGB(color)),
 
-  toHSV(color: PartialCMY): HSV {
-    return rgb.toHSV(cmy.toRGB(color));
-  },
+  toHSV: (color: PartialCMY): HSV => rgb.toHSV(cmy.toRGB(color)),
 
-  toHSI(color: PartialCMY): HSI {
-    return rgb.toHSI(cmy.toRGB(color));
-  },
+  toHSI: (color: PartialCMY): HSI => rgb.toHSI(cmy.toRGB(color)),
 
-  toHWB(color: PartialCMY): HWB {
-    return rgb.toHWB(cmy.toRGB(color));
-  },
+  toHWB: (color: PartialCMY): HWB => rgb.toHWB(cmy.toRGB(color)),
 
-  toHCG(color: PartialCMY): HCG {
-    return rgb.toHCG(cmy.toRGB(color));
-  },
+  toHCG: (color: PartialCMY): HCG => rgb.toHCG(cmy.toRGB(color)),
 
-  toCMY(color: PartialCMY): CMY {
-    return cmy.external(cmy.internal(color));
-  },
+  toCMY: (color: PartialCMY): CMY => cmy.external(cmy.internal(color)),
 
   toCMYK(color: PartialCMY): CMYK {
     let { cyan, magenta, yellow, alpha } = cmy.internal(color);
@@ -113,17 +97,11 @@ export const cmy: ColorSpace<CMY, PartialCMY, InternalCMY> = {
     return cmyk.external({ cyan, magenta, yellow, black, alpha });
   },
 
-  toXYZ(color: PartialCMY): XYZ {
-    return rgb.toXYZ(cmy.toRGB(color));
-  },
+  toXYZ: (color: PartialCMY): XYZ => rgb.toXYZ(cmy.toRGB(color)),
 
-  toLAB(color: PartialCMY): LAB {
-    return rgb.toLAB(cmy.toRGB(color));
-  },
+  toLAB: (color: PartialCMY): LAB => rgb.toLAB(cmy.toRGB(color)),
 
-  toLCH(color: PartialCMY): LCH {
-    return rgb.toLCH(cmy.toRGB(color));
-  },
+  toLCH: (color: PartialCMY): LCH => rgb.toLCH(cmy.toRGB(color)),
 
   parse(input: string): CMY | undefined {
     const testCMY = re`^cmy${reOp}${rePercent}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
@@ -153,7 +131,7 @@ export const cmy: ColorSpace<CMY, PartialCMY, InternalCMY> = {
   string(input: PartialCMY, options: StringOptions): string {
     const color = cmy.external(cmy.internal(input));
 
-    if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
+    if (['name', 'hex', 'css'].includes(options.format)) {
       return rgb.string(cmy.toRGB(color), options);
     }
 

@@ -1,11 +1,9 @@
-/* eslint-disable no-bitwise */
 import path from 'node:path';
 
 import { create2dArray, empty } from '@technobuddha/library';
 import { Jimp } from 'jimp';
 
 import { quantize, type RGB } from '../quantize.ts';
-
 
 type Image = Awaited<ReturnType<typeof Jimp.read>>;
 

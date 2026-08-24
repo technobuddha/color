@@ -36,12 +36,8 @@ export type PartialHSI = Alpha & (IHSI | OHSI | (IHSI & OHSI));
 export type HSI = Alpha & IHSI & OHSI;
 
 export const hsi: ColorSpace<HSI, PartialHSI, InternalHSI> = {
-  is(color: PartialColor): color is PartialHSI {
-    return (
-      ('h' in color && 's' in color && 'i' in color) ||
-      ('hue' in color && 'saturation' in color && 'intensity' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialHSI => ('h' in color && 's' in color && 'i' in color) ||
+      ('hue' in color && 'saturation' in color && 'intensity' in color),
 
   internal(color: PartialHSI): InternalHSI {
     if ('hue' in color && 'saturation' in color && 'intensity' in color) {
@@ -123,45 +119,25 @@ export const hsi: ColorSpace<HSI, PartialHSI, InternalHSI> = {
     return rgb.external({ red, green, blue, alpha });
   },
 
-  toHSL(color: PartialHSI): HSL {
-    return rgb.toHSL(hsi.toRGB(color));
-  },
+  toHSL: (color: PartialHSI): HSL => rgb.toHSL(hsi.toRGB(color)),
 
-  toHSV(color: PartialHSI): HSV {
-    return rgb.toHSV(hsi.toRGB(color));
-  },
+  toHSV: (color: PartialHSI): HSV => rgb.toHSV(hsi.toRGB(color)),
 
-  toHSI(color: PartialHSI): HSI {
-    return hsi.external(hsi.internal(color));
-  },
+  toHSI: (color: PartialHSI): HSI => hsi.external(hsi.internal(color)),
 
-  toHWB(color: PartialHSI): HWB {
-    return rgb.toHWB(hsi.toRGB(color));
-  },
+  toHWB: (color: PartialHSI): HWB => rgb.toHWB(hsi.toRGB(color)),
 
-  toHCG(color: PartialHSI): HCG {
-    return rgb.toHCG(hsi.toRGB(color));
-  },
+  toHCG: (color: PartialHSI): HCG => rgb.toHCG(hsi.toRGB(color)),
 
-  toCMY(color: PartialHSI): CMY {
-    return rgb.toCMY(hsi.toRGB(color));
-  },
+  toCMY: (color: PartialHSI): CMY => rgb.toCMY(hsi.toRGB(color)),
 
-  toCMYK(color: PartialHSI): CMYK {
-    return rgb.toCMYK(hsi.toRGB(color));
-  },
+  toCMYK: (color: PartialHSI): CMYK => rgb.toCMYK(hsi.toRGB(color)),
 
-  toXYZ(color: PartialHSI): XYZ {
-    return rgb.toXYZ(hsi.toRGB(color));
-  },
+  toXYZ: (color: PartialHSI): XYZ => rgb.toXYZ(hsi.toRGB(color)),
 
-  toLAB(color: PartialHSI): LAB {
-    return rgb.toLAB(hsi.toRGB(color));
-  },
+  toLAB: (color: PartialHSI): LAB => rgb.toLAB(hsi.toRGB(color)),
 
-  toLCH(color: PartialHSI): LCH {
-    return rgb.toLCH(hsi.toRGB(color));
-  },
+  toLCH: (color: PartialHSI): LCH => rgb.toLCH(hsi.toRGB(color)),
 
   parse(input: string): HSI | undefined {
     const reRGB = re`^hsi${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
@@ -192,7 +168,7 @@ export const hsi: ColorSpace<HSI, PartialHSI, InternalHSI> = {
   string(input: PartialHSI, options: StringOptions): string {
     const color = hsi.external(hsi.internal(input));
 
-    if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
+    if (['names', 'hex', 'css'].includes(options.format)) {
       return rgb.string(hsi.toRGB(color), options);
     }
 

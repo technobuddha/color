@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import {
   type Alpha,
   type CMY,
@@ -38,12 +37,9 @@ export type PartialHWB = Alpha & (IHWB | OHWB | (IHWB & OHWB));
 export type HWB = Alpha & IHWB & OHWB;
 
 export const hwb: ColorSpace<HWB, PartialHWB, InternalHWB> = {
-  is(color: PartialColor): color is PartialHWB {
-    return (
-      ('h' in color && 'w' in color && 'b' in color) ||
-      ('hue' in color && 'whiteness' in color && 'blackness' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialHWB =>
+    ('h' in color && 'w' in color && 'b' in color) ||
+    ('hue' in color && 'whiteness' in color && 'blackness' in color),
 
   internal(color: PartialHWB): InternalHWB {
     if ('hue' in color && 'whiteness' in color && 'blackness' in color) {
@@ -140,54 +136,32 @@ export const hwb: ColorSpace<HWB, PartialHWB, InternalHWB> = {
     return rgb.external({ red, green, blue, alpha });
   },
 
-  toHSL(color: PartialHWB): HSL {
-    return rgb.toHSL(hwb.toRGB(color));
-  },
+  toHSL: (color: PartialHWB): HSL => rgb.toHSL(hwb.toRGB(color)),
 
-  toHSV(color: PartialHWB): HSV {
-    return rgb.toHSV(hwb.toRGB(color));
-  },
+  toHSV: (color: PartialHWB): HSV => rgb.toHSV(hwb.toRGB(color)),
 
-  toHSI(color: PartialHWB): HSI {
-    return rgb.toHSI(hwb.toRGB(color));
-  },
+  toHSI: (color: PartialHWB): HSI => rgb.toHSI(hwb.toRGB(color)),
 
-  toHWB(color: PartialHWB): HWB {
-    return hwb.external(hwb.internal(color));
-  },
+  toHWB: (color: PartialHWB): HWB => hwb.external(hwb.internal(color)),
 
   toHCG(color: PartialHWB): HCG {
     const { hue, whiteness, blackness, alpha } = hwb.internal(color);
     const v = 1 - blackness;
     const chroma = v - whiteness;
-    let greyness = 0;
-
-    if (chroma < 1) {
-      greyness = (v - chroma) / (1 - chroma);
-    }
+    const greyness = chroma < 1 ? (v - chroma) / (1 - chroma) : 0;
 
     return hcg.external({ hue, chroma, greyness, alpha });
   },
 
-  toCMY(color: PartialHWB): CMY {
-    return rgb.toCMY(hwb.toRGB(color));
-  },
+  toCMY: (color: PartialHWB): CMY => rgb.toCMY(hwb.toRGB(color)),
 
-  toCMYK(color: PartialHWB): CMYK {
-    return rgb.toCMYK(hwb.toRGB(color));
-  },
+  toCMYK: (color: PartialHWB): CMYK => rgb.toCMYK(hwb.toRGB(color)),
 
-  toXYZ(color: PartialHWB): XYZ {
-    return rgb.toXYZ(hwb.toRGB(color));
-  },
+  toXYZ: (color: PartialHWB): XYZ => rgb.toXYZ(hwb.toRGB(color)),
 
-  toLAB(color: PartialHWB): LAB {
-    return rgb.toLAB(hwb.toRGB(color));
-  },
+  toLAB: (color: PartialHWB): LAB => rgb.toLAB(hwb.toRGB(color)),
 
-  toLCH(color: PartialHWB): LCH {
-    return lab.toLCH(hwb.toLAB(color));
-  },
+  toLCH: (color: PartialHWB): LCH => lab.toLCH(hwb.toLAB(color)),
 
   parse(input: string): HWB | undefined {
     const reRGB = re`^hwb${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;

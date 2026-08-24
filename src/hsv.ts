@@ -38,12 +38,9 @@ export type PartialHSV = Alpha & (IHSV | OHSV | (IHSV & OHSV));
 export type HSV = Alpha & IHSV & OHSV;
 
 export const hsv: ColorSpace<HSV, PartialHSV, InternalHSV> = {
-  is(color: PartialColor): color is PartialHSV {
-    return (
-      ('h' in color && 's' in color && 'v' in color) ||
-      ('hue' in color && 'saturation' in color && 'value' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialHSV =>
+    ('h' in color && 's' in color && 'v' in color) ||
+    ('hue' in color && 'saturation' in color && 'value' in color),
 
   internal(color: PartialHSV): InternalHSV {
     if ('hue' in color && 'saturation' in color && 'value' in color) {
@@ -117,56 +114,39 @@ export const hsv: ColorSpace<HSV, PartialHSV, InternalHSV> = {
     saturation *= vMin;
 
     saturation /= lMin <= 1 ? lMin : 2 - lMin;
-    saturation = saturation || 0;
+    saturation ||= 0;
     lightness /= 2;
 
     return hsl.external({ hue, saturation, lightness, alpha });
   },
 
-  toHSV(color: PartialHSV): HSV {
-    return hsv.external(hsv.internal(color));
-  },
+  toHSV: (color: PartialHSV): HSV => hsv.external(hsv.internal(color)),
 
-  toHSI(color: PartialHSV): HSI {
-    return rgb.toHSI(hsv.toRGB(color));
-  },
+  toHSI: (color: PartialHSV): HSI => rgb.toHSI(hsv.toRGB(color)),
 
-  toHWB(color: PartialHSV): HWB {
-    return hcg.toHWB(hsv.toHCG(color));
-  },
+  toHWB: (color: PartialHSV): HWB => hcg.toHWB(hsv.toHCG(color)),
 
   toHCG(color: PartialHSV): HCG {
     const { hue, saturation, value, alpha } = hsv.internal(color);
 
     const chroma = saturation * value;
-    let greyness = 0;
-
-    if (chroma < 1.0) {
-      greyness = (value - chroma) / (1 - chroma);
-    }
+    const greyness = chroma < 1.0 ? (value - chroma) / (1 - chroma) : 0;
 
     return hcg.external({ hue, chroma, greyness, alpha });
   },
 
-  toCMY(color: PartialHSV): CMY {
-    return rgb.toCMY(hsv.toRGB(color));
-  },
+  toCMY: (color: PartialHSV): CMY => rgb.toCMY(hsv.toRGB(color)),
 
-  toCMYK(color: PartialHSV): CMYK {
-    return rgb.toCMYK(hsv.toRGB(color));
-  },
+  toCMYK: (color: PartialHSV): CMYK => rgb.toCMYK(hsv.toRGB(color)),
 
-  toXYZ(color: PartialHSV): XYZ {
-    return rgb.toXYZ(hsv.toRGB(color));
-  },
+  toXYZ: (color: PartialHSV): XYZ => rgb.toXYZ(hsv.toRGB(color)),
 
+  // eslint-disable-next-line unicorn/prefer-short-arrow-method
   toLAB(color: PartialHSV): LAB {
     return rgb.toLAB(hsv.toRGB(color));
   },
 
-  toLCH(color: PartialHSV): LCH {
-    return lab.toLCH(hsv.toLAB(color));
-  },
+  toLCH: (color: PartialHSV): LCH => lab.toLCH(hsv.toLAB(color)),
 
   parse(input: string): HSV | undefined {
     const reRGB = re`^hsv${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
@@ -197,7 +177,7 @@ export const hsv: ColorSpace<HSV, PartialHSV, InternalHSV> = {
   string(input: PartialHSV, options: StringOptions): string {
     const color = hsv.external(hsv.internal(input));
 
-    if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
+    if (['names', 'hex', 'css'].includes(options.format)) {
       return rgb.string(hsv.toRGB(color), options);
     }
 

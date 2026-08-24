@@ -40,12 +40,9 @@ export type PartialHCG = Alpha & (IHGC | OHCG | (IHGC & OHCG));
 export type HCG = Alpha & IHGC & OHCG;
 
 export const hcg: ColorSpace<HCG, PartialHCG, InternalHCG> = {
-  is(color: PartialColor): color is PartialHCG {
-    return (
-      ('h' in color && 'c' in color && 'g' in color) ||
-      ('hue' in color && 'chroma' in color && 'greyness' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialHCG =>
+    ('h' in color && 'c' in color && 'g' in color) ||
+    ('hue' in color && 'chroma' in color && 'greyness' in color),
 
   internal(color: PartialHCG): InternalHCG {
     if ('hue' in color && 'chroma' in color && 'greyness' in color) {
@@ -76,7 +73,7 @@ export const hcg: ColorSpace<HCG, PartialHCG, InternalHCG> = {
     const { hue, chroma, greyness, alpha } = hcg.internal(color);
 
     const h = hue * 6;
-    const redGreenBlue = Array.from([h, h, h]).map((v, i) => {
+    const redGreenBlue = Array.from([h, h, h], (v, i) => {
       const a = modulo(v - i * 2, 6.0);
       const b = Math.abs(a - 3.0) - 1.0;
       return Math.min(Math.max(b, 0.0), 1.0);
@@ -110,18 +107,12 @@ export const hcg: ColorSpace<HCG, PartialHCG, InternalHCG> = {
     const { hue, chroma, greyness, alpha } = hcg.internal(color);
 
     const value = chroma + greyness * (1.0 - chroma);
-    let saturation = 0;
-
-    if (value > 0.0) {
-      saturation = chroma / value;
-    }
+    const saturation = value > 0.0 ? chroma / value : 0;
 
     return hsv.external({ hue, saturation, value, alpha });
   },
 
-  toHSI(color: PartialHCG): HSI {
-    return rgb.toHSI(hcg.toRGB(color));
-  },
+  toHSI: (color: PartialHCG): HSI => rgb.toHSI(hcg.toRGB(color)),
 
   toHWB(color: PartialHCG): HWB {
     const { hue, chroma, greyness, alpha } = hcg.internal(color);
@@ -131,29 +122,17 @@ export const hcg: ColorSpace<HCG, PartialHCG, InternalHCG> = {
     return hwb.external({ hue, whiteness, blackness, alpha });
   },
 
-  toHCG(color: PartialHCG): HCG {
-    return hcg.external(hcg.internal(color));
-  },
+  toHCG: (color: PartialHCG): HCG => hcg.external(hcg.internal(color)),
 
-  toCMY(color: PartialHCG): CMY {
-    return rgb.toCMY(hcg.toRGB(color));
-  },
+  toCMY: (color: PartialHCG): CMY => rgb.toCMY(hcg.toRGB(color)),
 
-  toCMYK(color: PartialHCG): CMYK {
-    return rgb.toCMYK(hcg.toRGB(color));
-  },
+  toCMYK: (color: PartialHCG): CMYK => rgb.toCMYK(hcg.toRGB(color)),
 
-  toXYZ(color: PartialHCG): XYZ {
-    return rgb.toXYZ(hcg.toRGB(color));
-  },
+  toXYZ: (color: PartialHCG): XYZ => rgb.toXYZ(hcg.toRGB(color)),
 
-  toLAB(color: PartialHCG): LAB {
-    return rgb.toLAB(hcg.toRGB(color));
-  },
+  toLAB: (color: PartialHCG): LAB => rgb.toLAB(hcg.toRGB(color)),
 
-  toLCH(color: PartialHCG): LCH {
-    return lab.toLCH(hcg.toLAB(color));
-  },
+  toLCH: (color: PartialHCG): LCH => lab.toLCH(hcg.toLAB(color)),
 
   parse(input: string): HCG | undefined {
     const reRGB = re`^hcg${reOp}${reAngle}${reSep}${rePercent}${reSep}${rePercent}${reAlpha}${reCp}$`;
@@ -185,7 +164,7 @@ export const hcg: ColorSpace<HCG, PartialHCG, InternalHCG> = {
   string(input: PartialHCG, options: StringOptions): string {
     const color = hcg.external(hcg.internal(input));
 
-    if (options.format === 'name' || options.format === 'hex' || options.format === 'css') {
+    if (['name', 'hex', 'css'].includes(options.format)) {
       return rgb.string(hcg.toRGB(color), options);
     }
 

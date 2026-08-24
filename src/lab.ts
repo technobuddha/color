@@ -39,12 +39,9 @@ export type PartialLAB = Alpha & (ILAB | OLAB | (ILAB & OLAB));
 export type LAB = Alpha & ILAB & OLAB;
 
 export const lab: ColorSpace<LAB, PartialLAB, InternalLAB> = {
-  is(color: PartialColor): color is PartialLAB {
-    return (
-      ('l' in color && 'a' in color && 'b' in color) ||
-      ('lightness' in color && 'redGreen' in color && 'blueYellow' in color)
-    );
-  },
+  is: (color: PartialColor): color is PartialLAB =>
+    ('l' in color && 'a' in color && 'b' in color) ||
+    ('lightness' in color && 'redGreen' in color && 'blueYellow' in color),
 
   internal(color: PartialLAB): InternalLAB {
     if ('lightness' in color && 'redGreen' in color && 'blueYellow' in color) {
@@ -76,37 +73,21 @@ export const lab: ColorSpace<LAB, PartialLAB, InternalLAB> = {
     return alpha === undefined ? obj : { ...obj, alpha };
   },
 
-  toRGB(color: PartialLAB): RGB {
-    return xyz.toRGB(lab.toXYZ(color));
-  },
+  toRGB: (color: PartialLAB): RGB => xyz.toRGB(lab.toXYZ(color)),
 
-  toHSL(color: PartialLAB): HSL {
-    return rgb.toHSL(xyz.toRGB(lab.toXYZ(color)));
-  },
+  toHSL: (color: PartialLAB): HSL => rgb.toHSL(xyz.toRGB(lab.toXYZ(color))),
 
-  toHSV(color: PartialLAB): HSV {
-    return rgb.toHSV(xyz.toRGB(lab.toXYZ(color)));
-  },
+  toHSV: (color: PartialLAB): HSV => rgb.toHSV(xyz.toRGB(lab.toXYZ(color))),
 
-  toHSI(color: PartialLAB): HSI {
-    return rgb.toHSI(lab.toRGB(color));
-  },
+  toHSI: (color: PartialLAB): HSI => rgb.toHSI(lab.toRGB(color)),
 
-  toHWB(color: PartialLAB): HWB {
-    return rgb.toHWB(xyz.toRGB(lab.toXYZ(color)));
-  },
+  toHWB: (color: PartialLAB): HWB => rgb.toHWB(xyz.toRGB(lab.toXYZ(color))),
 
-  toHCG(color: PartialLAB): HCG {
-    return rgb.toHCG(lab.toRGB(color));
-  },
+  toHCG: (color: PartialLAB): HCG => rgb.toHCG(lab.toRGB(color)),
 
-  toCMY(color: PartialLAB): CMY {
-    return rgb.toCMY(lab.toRGB(color));
-  },
+  toCMY: (color: PartialLAB): CMY => rgb.toCMY(lab.toRGB(color)),
 
-  toCMYK(color: PartialLAB): CMYK {
-    return rgb.toCMYK(xyz.toRGB(lab.toXYZ(color)));
-  },
+  toCMYK: (color: PartialLAB): CMYK => rgb.toCMYK(xyz.toRGB(lab.toXYZ(color))),
 
   toXYZ(color: PartialLAB): XYZ {
     const { lightness, redGreen, blueYellow, alpha } = lab.internal(color);
@@ -124,15 +105,12 @@ export const lab: ColorSpace<LAB, PartialLAB, InternalLAB> = {
     Z = Z2 > 0.008856 ? Z2 : (Z - 16 / 116) / 7.787;
 
     X *= 0.95047;
-    Y *= 1.0;
     Z *= 1.08883;
 
     return xyz.external({ X, Y, Z, alpha });
   },
 
-  toLAB(color: PartialLAB): LAB {
-    return lab.external(lab.internal(color));
-  },
+  toLAB: (color: PartialLAB): LAB => lab.external(lab.internal(color)),
 
   toLCH(color: PartialLAB): LCH {
     const { lightness, redGreen, blueYellow, alpha } = lab.internal(color);

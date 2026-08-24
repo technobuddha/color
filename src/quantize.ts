@@ -1,13 +1,12 @@
-/* eslint-disable no-bitwise */
 import { compareNumbers, PriorityQueue } from '@technobuddha/library';
 
 //
 // quantize.js Copyright 2008 Nick Rabinowitz
 // Ported to node.js by Olivier Lesnicki
-// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+// Licensed under the MIT license: https://www.opensource.org/licenses/mit-license.php
 //
 // Basic Javascript port of the MMCQ (modified median cut quantization)
-// algorithm from the Leptonica library (http://www.leptonica.com/).
+// algorithm from the Leptonica library (https://www.leptonica.com/).
 // Returns a color map you can use to map original pixels to the reduced
 // palette. Still a work in progress.
 //
@@ -47,16 +46,53 @@ export type RGB = {
 //#endregion
 //#region VBox
 class VBox {
+  public static fromPixels(pixels: RGB[], histogram: Histogram): VBox {
+    let rMin = 255 >> SHIFT;
+    let rMax = 0;
+    let gMin = 255 >> SHIFT;
+    let gMax = 0;
+    let bMin = 255 >> SHIFT;
+    let bMax = 0;
+
+    for (const pixel of pixels) {
+      const r = pixel.r >> SHIFT;
+      const g = pixel.g >> SHIFT;
+      const b = pixel.b >> SHIFT;
+
+      if (r < rMin) {
+        rMin = r;
+      }
+      if (r > rMax) {
+        rMax = r;
+      }
+
+      if (g < gMin) {
+        gMin = g;
+      }
+      if (g > gMax) {
+        gMax = g;
+      }
+
+      if (b < bMin) {
+        bMin = b;
+      }
+      if (b > bMax) {
+        bMax = b;
+      }
+    }
+
+    return new VBox({ r: rMin, g: gMin, b: bMin }, { r: rMax, g: gMax, b: bMax }, histogram);
+  }
+  private cachedVolume: null | number = null;
+  private cachedCount: null | number = null;
+  private cachedColorCount: null | number = null;
+  private cachedAvg: null | RGB = null;
+
   public constructor(
     public min: RGB,
     public max: RGB,
     public histogram: Histogram,
   ) {}
-
-  private cachedVolume: null | number = null;
-  private cachedCount: null | number = null;
-  private cachedColorCount: null | number = null;
-  private cachedAvg: null | RGB = null;
 
   public copy(): VBox {
     return new VBox({ ...this.min }, { ...this.max }, this.histogram);
@@ -144,45 +180,8 @@ class VBox {
       b <= this.max.b
     );
   }
-
-  public static fromPixels(pixels: RGB[], histogram: Histogram): VBox {
-    let rMin = 255 >> SHIFT;
-    let rMax = 0;
-    let gMin = 255 >> SHIFT;
-    let gMax = 0;
-    let bMin = 255 >> SHIFT;
-    let bMax = 0;
-
-    for (const pixel of pixels) {
-      const r = pixel.r >> SHIFT;
-      const g = pixel.g >> SHIFT;
-      const b = pixel.b >> SHIFT;
-
-      if (r < rMin) {
-        rMin = r;
-      }
-      if (r > rMax) {
-        rMax = r;
-      }
-
-      if (g < gMin) {
-        gMin = g;
-      }
-      if (g > gMax) {
-        gMax = g;
-      }
-
-      if (b < bMin) {
-        bMin = b;
-      }
-      if (b > bMax) {
-        bMax = b;
-      }
-    }
-
-    return new VBox({ r: rMin, g: gMin, b: bMin }, { r: rMax, g: gMax, b: bMax }, histogram);
-  }
 }
+
 //#endregion
 //#region ColorMap
 type ColorData = {
@@ -191,14 +190,14 @@ type ColorData = {
 };
 
 class ColorMap {
+  private readonly data: PriorityQueue<ColorData>;
+
   public constructor(queue: PriorityQueue<VBox>) {
     this.data = new PriorityQueue<ColorData>(
       (a, b) => compareNumbers(b.vbox.pixelCount(), a.vbox.pixelCount()),
       queue.map((q) => ({ vbox: q, color: q.averageColor() })),
     );
   }
-
-  private readonly data: PriorityQueue<ColorData>;
 
   public palette(): RGB[] {
     return this.data.map((vb) => vb.color);
@@ -239,7 +238,14 @@ class ColorMap {
 //#endregion
 //#region Histogram
 class Histogram {
+  private static getColorIndex(r: number, g: number, b: number): number {
+    return (r << (2 * SIGNIFICANT_BITS)) + (g << SIGNIFICANT_BITS) + b;
+  }
+
+  private readonly histogram: number[];
+
   public constructor(pixels: RGB[]) {
+    // eslint-disable-next-line unicorn/no-array-from-fill
     this.histogram = Array.from<number>({ length: 1 << (3 * SIGNIFICANT_BITS) }).fill(0);
 
     for (const pixel of pixels) {
@@ -249,18 +255,12 @@ class Histogram {
     }
   }
 
-  private readonly histogram: number[];
-
   public get(r: number, g: number, b: number): number {
     return this.histogram[Histogram.getColorIndex(r, g, b)] || 0;
   }
 
   public colors(): number {
     return this.histogram.reduce((a, v) => a + (v > 0 ? 1 : 0), 0);
-  }
-
-  private static getColorIndex(r: number, g: number, b: number): number {
-    return (r << (2 * SIGNIFICANT_BITS)) + (g << SIGNIFICANT_BITS) + b;
   }
 }
 //#endregion
