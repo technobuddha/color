@@ -76,11 +76,8 @@ export const hsl: ColorSpace<HSL, PartialHSL, InternalHSL> = {
 
   toRGB(color: PartialHSL): RGB {
     const { hue, saturation, lightness, alpha } = hsl.internal(color);
-    // eslint-disable-next-line no-useless-assignment
     let red = 0;
-    // eslint-disable-next-line no-useless-assignment
     let green = 0;
-    // eslint-disable-next-line no-useless-assignment
     let blue = 0;
 
     if (saturation === 0) {

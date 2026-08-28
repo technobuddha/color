@@ -120,7 +120,6 @@ export const xyz: ColorSpace<XYZ, PartialXYZ, InternalXYZ> = {
 
   parse(input: string): XYZ | undefined {
     let match: RegExpMatchArray | null;
-    // eslint-disable-next-line no-useless-assignment
     if ((match = testXYZ.exec(input) ?? (match = testColor.exec(input)))) {
       //#region XYZ
       if (match[4]) {
