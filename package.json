@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@technobuddha/color",
-  "version": "0.3.3-13",
+  "version": "0.3.3-14",
   "description": "Technobuddha color library",
   "license": "MIT",
   "type": "module",
@@ -32,12 +32,12 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-190",
+    "@technobuddha/library": "2.1.0-191",
     "jimp": "1.6.0"
   },
   "devDependencies": {
     "@cspell/cspell-types": "10.1.1",
-    "@technobuddha/project": "1.0.0-197",
+    "@technobuddha/project": "1.0.0-198",
     "@types/node": "26.3.0",
     "@vitest/coverage-v8": "4.1.11",
     "cspell": "10.1.1",
