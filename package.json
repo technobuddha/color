@@ -32,20 +32,20 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@technobuddha/library": "2.1.0-183",
+    "@technobuddha/library": "2.1.0-188",
     "jimp": "1.6.0"
   },
   "devDependencies": {
-    "@cspell/cspell-types": "10.0.1",
-    "@technobuddha/project": "1.0.0-183",
-    "@types/node": "26.2.0",
-    "@vitest/coverage-v8": "4.1.10",
-    "cspell": "10.0.1",
+    "@cspell/cspell-types": "10.1.1",
+    "@technobuddha/project": "1.0.0-195",
+    "@types/node": "26.3.0",
+    "@vitest/coverage-v8": "4.1.11",
+    "cspell": "10.1.1",
     "husky": "9.1.7",
     "jsdom": "30.0.1",
     "tsx": "4.23.12",
     "typescript": "6.0.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "engines": {
     "node": ">=25.0.0"
